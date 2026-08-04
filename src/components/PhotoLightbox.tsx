@@ -28,7 +28,7 @@ export default function PhotoLightbox({
         type="button"
         onClick={onClose}
         aria-label="Fermer"
-        className="absolute left-5 top-5 text-2xl text-on-dark hover:text-on-dark-muted"
+        className="absolute right-5 top-5 text-2xl text-on-dark hover:text-on-dark-muted"
       >
         ✕
       </button>

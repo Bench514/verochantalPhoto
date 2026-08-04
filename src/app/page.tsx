@@ -53,10 +53,15 @@ export default function Home() {
       </section>
 
       <section className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
-        <div
-          className="h-[200px] w-[200px] shrink-0 rounded-full border border-border bg-bg-alt"
-          aria-hidden
-        />
+        <div className="relative h-[200px] w-[200px] shrink-0 overflow-hidden rounded-full bg-bg-alt">
+          <Image
+            src="/images/vero.jpg"
+            alt="Véronique Chantal"
+            fill
+            sizes="200px"
+            className="object-cover"
+          />
+        </div>
         <div className="max-w-[560px]">
           <p className="text-[13px] uppercase tracking-[0.1em] text-fg-muted">Bonjour</p>
           <p className="mt-4 text-[clamp(17px,2vw,21px)] font-light leading-relaxed">

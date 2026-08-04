@@ -1,3 +1,4 @@
+import Image from "next/image";
 import SiteNav from "@/components/SiteNav";
 import Button from "@/components/Button";
 
@@ -12,10 +13,16 @@ export default function BioPage() {
     <>
       <SiteNav active="bio" />
       <section className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-16 px-[6vw] py-16">
-        <div
-          className="h-[520px] max-w-[420px] flex-1 min-w-[280px] rounded-sm border border-border bg-bg-alt"
-          aria-hidden
-        />
+        <div className="relative h-[520px] max-w-[420px] flex-1 min-w-[280px] overflow-hidden rounded-sm bg-bg-alt">
+          <Image
+            src="/images/vero.jpg"
+            alt="Véronique Chantal"
+            fill
+            sizes="(max-width: 768px) 100vw, 420px"
+            className="object-cover"
+            priority
+          />
+        </div>
         <div className="min-w-[280px] flex-1">
           <h1 className="font-signature text-4xl">Bonjour, moi c&apos;est Véronique</h1>
           <p className="mt-3 text-[13px] uppercase tracking-[0.1em] text-fg-muted">
