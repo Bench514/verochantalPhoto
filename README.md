@@ -48,9 +48,12 @@ Railway — copier le hash tel quel là-bas, sans échappement.
    - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET` (chaîne aléatoire longue)
    - `CALENDLY_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_CONTACT_PHONE`
    - `RESEND_API_KEY` + `CONTACT_NOTIFICATION_EMAIL` (optionnel, notification email des messages de contact)
-4. Railway détecte Next.js automatiquement (Nixpacks). `npm run build` applique
-   les migrations Prisma (`prisma migrate deploy`) avant de builder — pas de
-   commande manuelle nécessaire.
+4. Railway détecte Next.js automatiquement (Nixpacks). Les migrations Prisma
+   (`prisma migrate deploy`) s'appliquent au **démarrage** du serveur (`npm run
+   start`), pas pendant le build — sur Railway, le volume persistant n'est monté
+   qu'au runtime, pas dans le conteneur de build éphémère. Les lancer pendant
+   `npm run build` échouerait silencieusement contre un chemin qui disparaît
+   ensuite, laissant une base sans tables au démarrage réel.
 5. Premier déploiement : la base sur le volume est vide. Se connecter à
    `/admin/photos` et uploader les photos, ou lancer le script de seed une fois
    (`npm run db:seed`) pour reprendre les photos du dossier `design_handoff_site_photographe/uploads/`.
