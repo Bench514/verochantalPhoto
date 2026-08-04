@@ -33,11 +33,17 @@ async function main() {
     );
 
     for (let i = 0; i < files.length; i++) {
+      const ext = path.extname(files[i]).toLowerCase();
       const src = path.join(sourceDir, files[i]);
-      const filename = `${crypto.randomUUID()}${path.extname(files[i]).toLowerCase()}`;
+      const filename = `${crypto.randomUUID()}${ext}`;
       await copyFile(src, path.join(UPLOADS_DIR, filename));
       await prisma.photo.create({
-        data: { filename, category, order: i, alt: "" },
+        data: {
+          filename,
+          name: path.basename(files[i], ext),
+          alt: "",
+          categories: { create: { category, order: i } },
+        },
       });
     }
     console.log(`Seeded ${files.length} photo(s) pour ${category}.`);

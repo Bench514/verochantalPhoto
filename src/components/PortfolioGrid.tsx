@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { CATEGORY_LABEL, type PhotoCategory, type PhotoDTO } from "@/lib/types";
+import PhotoLightbox from "./PhotoLightbox";
 
 type Filter = "ALL" | PhotoCategory;
 
@@ -14,7 +15,20 @@ const FILTERS: { key: Filter; label: string }[] = [
 
 export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
   const [filter, setFilter] = useState<Filter>("ALL");
-  const shown = photos.filter((p) => filter === "ALL" || p.category === filter);
+  const [selected, setSelected] = useState<PhotoDTO | null>(null);
+
+  const shown = useMemo(() => {
+    if (filter === "ALL") {
+      return [...photos].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    }
+    return photos
+      .filter((p) => p.categories.some((c) => c.category === filter))
+      .sort((a, b) => {
+        const oa = a.categories.find((c) => c.category === filter)!.order;
+        const ob = b.categories.find((c) => c.category === filter)!.order;
+        return oa - ob;
+      });
+  }, [photos, filter]);
 
   return (
     <div>
@@ -42,7 +56,12 @@ export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
       ) : (
         <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-3 sm:grid-cols-2">
           {shown.map((photo) => (
-            <div key={photo.id} className="relative aspect-[4/5] overflow-hidden bg-bg-alt">
+            <button
+              key={photo.id}
+              type="button"
+              onClick={() => setSelected(photo)}
+              className="group relative aspect-[4/5] overflow-hidden bg-bg-alt text-left"
+            >
               <Image
                 src={`/uploads/${photo.filename}`}
                 alt={photo.alt}
@@ -50,10 +69,15 @@ export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
                 sizes="(max-width: 640px) 100vw, 50vw"
                 className="object-cover"
               />
-            </div>
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2.5 text-[13px] text-on-dark opacity-0 transition-opacity group-hover:opacity-100">
+                {photo.name}
+              </span>
+            </button>
           ))}
         </div>
       )}
+
+      {selected && <PhotoLightbox photo={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

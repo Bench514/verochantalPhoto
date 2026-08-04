@@ -1,14 +1,22 @@
 export type PhotoCategory = "PORTRAIT" | "BOUDOIR";
 
+export type PhotoCategoryEntry = {
+  category: PhotoCategory;
+  order: number;
+};
+
 export type PhotoDTO = {
   id: string;
   filename: string;
-  category: PhotoCategory;
+  name: string;
   alt: string;
-  order: number;
+  createdAt: string;
+  categories: PhotoCategoryEntry[];
 };
 
 export const CATEGORY_LABEL: Record<PhotoCategory, string> = {
   PORTRAIT: "Portrait",
   BOUDOIR: "Boudoir",
 };
+
+export const ALL_CATEGORIES: PhotoCategory[] = ["PORTRAIT", "BOUDOIR"];

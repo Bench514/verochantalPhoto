@@ -4,31 +4,37 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { saveUpload, deleteUpload } from "@/lib/uploads";
 import type { PhotoCategory } from "@/lib/types";
+import path from "path";
 
-const CATEGORIES: PhotoCategory[] = ["PORTRAIT", "BOUDOIR"];
-
-function isCategory(v: FormDataEntryValue | null): v is PhotoCategory {
+function isCategory(v: unknown): v is PhotoCategory {
   return v === "PORTRAIT" || v === "BOUDOIR";
 }
 
 export async function uploadPhotoAction(formData: FormData) {
   const file = formData.get("file");
-  const category = formData.get("category");
+  const categories = formData.getAll("categories").filter(isCategory);
   if (!(file instanceof File) || file.size === 0) throw new Error("Aucun fichier fourni");
-  if (!isCategory(category)) throw new Error("Catégorie invalide");
+  if (categories.length === 0) throw new Error("Choisir au moins une catégorie");
 
   const filename = await saveUpload(file);
-  const last = await prisma.photo.findFirst({
-    where: { category },
-    orderBy: { order: "desc" },
-  });
+  const originalName = path.basename(file.name, path.extname(file.name));
 
   await prisma.photo.create({
     data: {
       filename,
-      category,
+      name: originalName,
       alt: "",
-      order: (last?.order ?? -1) + 1,
+      categories: {
+        create: await Promise.all(
+          categories.map(async (category) => {
+            const last = await prisma.photoCategoryLink.findFirst({
+              where: { category },
+              orderBy: { order: "desc" },
+            });
+            return { category, order: (last?.order ?? -1) + 1 };
+          })
+        ),
+      },
     },
   });
 
@@ -43,25 +49,44 @@ export async function deletePhotoAction(id: string) {
   revalidatePath("/portfolio");
 }
 
-export async function updateCategoryAction(id: string, category: PhotoCategory) {
-  if (!CATEGORIES.includes(category)) throw new Error("Catégorie invalide");
-  const last = await prisma.photo.findFirst({
-    where: { category },
-    orderBy: { order: "desc" },
-  });
-  await prisma.photo.update({
-    where: { id },
-    data: { category, order: (last?.order ?? -1) + 1 },
-  });
+export async function toggleCategoryAction(
+  photoId: string,
+  category: PhotoCategory,
+  enabled: boolean
+) {
+  if (!isCategory(category)) throw new Error("Catégorie invalide");
+
+  if (enabled) {
+    const last = await prisma.photoCategoryLink.findFirst({
+      where: { category },
+      orderBy: { order: "desc" },
+    });
+    await prisma.photoCategoryLink.upsert({
+      where: { photoId_category: { photoId, category } },
+      create: { photoId, category, order: (last?.order ?? -1) + 1 },
+      update: {},
+    });
+  } else {
+    const remaining = await prisma.photoCategoryLink.count({ where: { photoId } });
+    if (remaining <= 1) {
+      throw new Error("Une photo doit garder au moins une catégorie");
+    }
+    await prisma.photoCategoryLink.delete({
+      where: { photoId_category: { photoId, category } },
+    });
+  }
+
   revalidatePath("/admin/photos");
   revalidatePath("/portfolio");
 }
 
-export async function moveAction(id: string, direction: "up" | "down") {
-  const current = await prisma.photo.findUniqueOrThrow({ where: { id } });
-  const neighbor = await prisma.photo.findFirst({
+export async function moveAction(photoId: string, category: PhotoCategory, direction: "up" | "down") {
+  const current = await prisma.photoCategoryLink.findUniqueOrThrow({
+    where: { photoId_category: { photoId, category } },
+  });
+  const neighbor = await prisma.photoCategoryLink.findFirst({
     where: {
-      category: current.category,
+      category,
       order: direction === "up" ? { lt: current.order } : { gt: current.order },
     },
     orderBy: { order: direction === "up" ? "desc" : "asc" },
@@ -69,8 +94,8 @@ export async function moveAction(id: string, direction: "up" | "down") {
   if (!neighbor) return;
 
   await prisma.$transaction([
-    prisma.photo.update({ where: { id: current.id }, data: { order: neighbor.order } }),
-    prisma.photo.update({ where: { id: neighbor.id }, data: { order: current.order } }),
+    prisma.photoCategoryLink.update({ where: { id: current.id }, data: { order: neighbor.order } }),
+    prisma.photoCategoryLink.update({ where: { id: neighbor.id }, data: { order: current.order } }),
   ]);
 
   revalidatePath("/admin/photos");

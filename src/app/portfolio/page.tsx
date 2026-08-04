@@ -1,13 +1,24 @@
 import SiteNav from "@/components/SiteNav";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import { prisma } from "@/lib/db";
+import type { PhotoDTO } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function PortfolioPage() {
-  const photos = await prisma.photo.findMany({
-    orderBy: [{ category: "asc" }, { order: "asc" }],
+  const rows = await prisma.photo.findMany({
+    include: { categories: true },
+    orderBy: { createdAt: "asc" },
   });
+
+  const photos: PhotoDTO[] = rows.map((p) => ({
+    id: p.id,
+    filename: p.filename,
+    name: p.name,
+    alt: p.alt,
+    createdAt: p.createdAt.toISOString(),
+    categories: p.categories.map((c) => ({ category: c.category, order: c.order })),
+  }));
 
   return (
     <>

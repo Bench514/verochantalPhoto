@@ -13,13 +13,27 @@ enum PhotoCategory {
 }
 
 model Photo {
-  id        String        @id @default(cuid())
+  id        String   @id @default(cuid())
   filename  String
-  category  PhotoCategory
-  alt       String        @default("")
-  order     Int           @default(0)
-  createdAt DateTime      @default(now())
+  name      String
+  alt       String   @default("")
+  createdAt DateTime @default(now())
 
+  categories PhotoCategoryLink[]
+}
+
+// A photo can belong to more than one category at once (Portrait + Boudoir).
+// Position in the grid is independent per category, so order lives here
+// rather than on Photo.
+model PhotoCategoryLink {
+  id       String        @id @default(cuid())
+  photoId  String
+  category PhotoCategory
+  order    Int           @default(0)
+
+  photo Photo @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+  @@unique([photoId, category])
   @@index([category, order])
 }
 
