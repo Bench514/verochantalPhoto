@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<dc-import name="SiteNav" active="services" transparent="{{ false }}" hint-size="100%,80px"></dc-import>
+
+<!-- En-tête -->
+<div class="services-page-header">
+  <div class="services-page-header__title">Services &amp; forfaits</div>
+  <p class="services-page-header__subtitle">Chaque forfait inclut une consultation avant la séance et une galerie privée pour choisir tes photos préférées.</p>
+</div>
+
+<!-- Cartes forfaits -->
+<div class="services-page-cards">
+
+  <div class="service-card-full">
+    <div class="service-card-full__title">Portrait classique</div>
+    <p class="service-card-full__desc">Une séance simple et lumineuse — en studio ou en extérieur — pour des portraits qui te ressemblent vraiment.</p>
+    <ul class="service-card-full__list">
+      <li>1 heure de séance</li>
+      <li>2 tenues</li>
+      <li>15 photos retouchées</li>
+      <li>Galerie privée en ligne</li>
+    </ul>
+    <div class="service-card-full__bottom">
+      <div class="service-card-full__price">dès 250 $</div>
+      <a href="contact.dc.html" class="service-card-full__cta">Réserver</a>
+    </div>
+  </div>
+
+  <div class="service-card-full service-card-full--featured">
+    <div class="service-card-full__badge">Populaire</div>
+    <div class="service-card-full__title service-card-full__title--offset">Séance boudoir</div>
+    <p class="service-card-full__desc">Une expérience intimiste et bienveillante, pensée pour te sentir belle, en confiance, sans pression.</p>
+    <ul class="service-card-full__list">
+      <li>1h30 de séance privée</li>
+      <li>Accompagnement pose &amp; style</li>
+      <li>20 photos retouchées</li>
+      <li>Galerie privée et confidentielle</li>
+    </ul>
+    <div class="service-card-full__bottom">
+      <div class="service-card-full__price service-card-full__price--plum">dès 350 $</div>
+      <a href="contact.dc.html" class="service-card-full__cta service-card-full__cta--plum">Réserver</a>
+    </div>
+  </div>
+
+  <div class="service-card-full">
+    <div class="service-card-full__title">Forfait duo</div>
+    <p class="service-card-full__desc">Entre amies, en couple, mère-fille — un moment partagé et complice devant la caméra.</p>
+    <ul class="service-card-full__list">
+      <li>1h30 de séance</li>
+      <li>2 personnes incluses</li>
+      <li>25 photos retouchées</li>
+      <li>Galerie privée en ligne</li>
+    </ul>
+    <div class="service-card-full__bottom">
+      <div class="service-card-full__price">dès 450 $</div>
+      <a href="contact.dc.html" class="service-card-full__cta">Réserver</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Note forfait personnalisé -->
+<p class="services-note">
+  Besoin de quelque chose de différent? <a href="contact.dc.html">Écris-moi pour un forfait personnalisé →</a>
+</p>
+
+<!-- CTA -->
+<div class="cta-dark cta-dark--compact">
+  <div class="cta-dark__title">Prête à choisir ton forfait?</div>
+  <a href="#" class="btn btn--gold">Réserver via Calendly</a>
+</div>
+
+<!-- Pied de page -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand-name">Véronique Chantal</div>
+      <div class="site-footer__brand-url">veroniquechantalphoto.ca</div>
+    </div>
+    <div class="site-footer__links">
+      <a href="index.dc.html" class="site-footer__link">Accueil</a>
+      <a href="portfolio.dc.html" class="site-footer__link">Portfolio</a>
+      <a href="deroulement.dc.html" class="site-footer__link">Déroulement</a>
+      <a href="bio.dc.html" class="site-footer__link">Bio</a>
+      <a href="contact.dc.html" class="site-footer__link">Contact</a>
+    </div>
+  </div>
+  <div class="site-footer__copyright">© 2026 Véronique Chantal Photo</div>
+</footer>
+
+</x-dc>
+</body>
+</html>

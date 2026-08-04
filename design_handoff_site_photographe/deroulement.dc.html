@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<div style="display:none"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="image-slot-loader" hint-size="1,1"></x-import></div>
+<dc-import name="SiteNav" active="deroulement" transparent="{{ false }}" hint-size="100%,80px"></dc-import>
+
+<!-- En-tête -->
+<div class="process-header">
+  <div class="process-header__title">Déroulement d'une séance</div>
+  <div class="process-header__script">Travailler avec moi</div>
+  <p class="process-header__subtitle">Une démarche pensée pour que tu te sentes à l'aise, du premier message jusqu'à la remise des photos.</p>
+</div>
+
+<!-- Étapes -->
+<div class="process-steps">
+
+  <div class="process-step">
+    <image-slot id="der-1" style="flex:1;min-width:260px;height:300px" shape="rect" fit="cover" src="uploads/portraits/_B6A0927.jpg" placeholder="Photo — consultation"></image-slot>
+    <div class="process-step__content">
+      <div class="process-step__number">1. Consultation</div>
+      <p class="process-step__text">On discute par message ou en appel de ta vision, de tes envies et de ce qui te rend nerveuse. Aucune question n'est trop simple — c'est le moment pour tout poser.</p>
+    </div>
+  </div>
+
+  <div class="process-step process-step--reverse">
+    <div class="process-step__content">
+      <div class="process-step__number">2. Préparation</div>
+      <p class="process-step__text">Choix du lieu, des tenues et de l'ambiance souhaitée. Je t'envoie un guide pour t'aider à te sentir prête et confiante le jour J.</p>
+    </div>
+    <image-slot id="der-2" style="flex:1;min-width:260px;height:300px" shape="rect" fit="cover" src="uploads/boudoir/_MG_9890.jpg" placeholder="Photo — préparation"></image-slot>
+  </div>
+
+  <div class="process-step">
+    <image-slot id="der-3" style="flex:1;min-width:260px;height:300px" shape="rect" fit="cover" src="uploads/portraits/_MG_9814.jpg" placeholder="Photo — séance"></image-slot>
+    <div class="process-step__content">
+      <div class="process-step__number">3. La séance</div>
+      <p class="process-step__text">On avance à ton rythme, avec de la musique, du temps et beaucoup de douceur. Je te guide à chaque pose, sans pression.</p>
+    </div>
+  </div>
+
+  <div class="process-step process-step--reverse">
+    <div class="process-step__content">
+      <div class="process-step__number">4. Sélection</div>
+      <p class="process-step__text">Quelques jours plus tard, tu reçois une galerie privée en ligne pour choisir tes photos préférées, à ton aise.</p>
+    </div>
+    <image-slot id="der-4" style="flex:1;min-width:260px;height:300px" shape="rect" fit="cover" src="uploads/portraits/_B6A3213.jpg" placeholder="Photo — sélection"></image-slot>
+  </div>
+
+  <div class="process-step">
+    <image-slot id="der-5" style="flex:1;min-width:260px;height:300px" shape="rect" fit="cover" src="uploads/portraits/EC7251E3-1179-4FBC-B63D-6AEA6D372D17_1_105_c.jpeg" placeholder="Photo — livraison"></image-slot>
+    <div class="process-step__content">
+      <div class="process-step__number">5. Livraison</div>
+      <p class="process-step__text">Tes photos retouchées te sont livrées en haute résolution, prêtes à être imprimées ou partagées comme tu le souhaites.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-dark cta-dark--compact">
+  <div class="cta-dark__title">Prête à commencer?</div>
+  <p class="cta-dark__text">La première étape est toujours la plus simple: on en parle.</p>
+  <div class="cta-dark__actions">
+    <a href="#" class="btn btn--gold">Réserver via Calendly</a>
+    <a href="contact.dc.html" class="btn btn--outline-light">Envoyer un message</a>
+  </div>
+</div>
+
+<!-- Pied de page -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand-name">Véronique Chantal</div>
+      <div class="site-footer__brand-url">veroniquechantalphoto.ca</div>
+    </div>
+    <div class="site-footer__links">
+      <a href="index.dc.html" class="site-footer__link">Accueil</a>
+      <a href="portfolio.dc.html" class="site-footer__link">Portfolio</a>
+      <a href="services.dc.html" class="site-footer__link">Services</a>
+      <a href="bio.dc.html" class="site-footer__link">Bio</a>
+      <a href="contact.dc.html" class="site-footer__link">Contact</a>
+    </div>
+  </div>
+  <div class="site-footer__copyright">© 2026 Véronique Chantal Photo</div>
+</footer>
+
+</x-dc>
+</body>
+</html>

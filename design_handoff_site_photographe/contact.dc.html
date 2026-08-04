@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<dc-import name="SiteNav" active="contact" transparent="{{ false }}" hint-size="100%,80px"></dc-import>
+
+<!-- Contact -->
+<div class="contact-layout">
+
+  <div class="contact-info">
+    <div class="contact-info__title">Contact</div>
+    <p class="contact-info__intro">Une question, une idée de séance, ou prête à réserver? Écris-moi — je réponds habituellement en 1 à 2 jours.</p>
+
+    <div class="contact-detail">
+      <div class="contact-detail__label">Courriel</div>
+      <div class="contact-detail__value">bonjour@veroniquechantalphoto.ca</div>
+    </div>
+    <div class="contact-detail contact-detail--last">
+      <div class="contact-detail__label">Téléphone</div>
+      <div class="contact-detail__value">(514) 000-0000</div>
+    </div>
+
+    <a href="#" class="btn btn--dark">Réserver directement via Calendly →</a>
+
+    <div class="contact-social">
+      <div class="contact-social__icon"></div>
+      <div class="contact-social__icon"></div>
+    </div>
+  </div>
+
+  <div class="contact-form-card">
+    <div class="contact-form-card__intro">Ou écris-moi directement :</div>
+    <div class="contact-form-card__fields">
+      <div>
+        <label class="form-label">Nom</label>
+        <input type="text" placeholder="Ton nom" class="form-input">
+      </div>
+      <div>
+        <label class="form-label">Courriel</label>
+        <input type="email" placeholder="ton@courriel.com" class="form-input">
+      </div>
+      <div>
+        <label class="form-label">Type de séance</label>
+        <select class="form-input">
+          <option>Portrait classique</option>
+          <option>Séance boudoir</option>
+          <option>Forfait duo</option>
+          <option>Je ne sais pas encore</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Message</label>
+        <textarea placeholder="Parle-moi un peu de ton projet…" rows="5" class="form-input"></textarea>
+      </div>
+      <div class="form-submit">Envoyer le message</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Pied de page -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand-name">Véronique Chantal</div>
+      <div class="site-footer__brand-url">veroniquechantalphoto.ca</div>
+    </div>
+    <div class="site-footer__links">
+      <a href="index.dc.html" class="site-footer__link">Accueil</a>
+      <a href="portfolio.dc.html" class="site-footer__link">Portfolio</a>
+      <a href="services.dc.html" class="site-footer__link">Services</a>
+      <a href="deroulement.dc.html" class="site-footer__link">Déroulement</a>
+      <a href="bio.dc.html" class="site-footer__link">Bio</a>
+    </div>
+  </div>
+  <div class="site-footer__copyright">© 2026 Véronique Chantal Photo</div>
+</footer>
+
+</x-dc>
+</body>
+</html>

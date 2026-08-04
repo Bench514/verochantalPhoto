@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<div style="display:none"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="image-slot-loader" hint-size="1,1"></x-import></div>
+<dc-import name="SiteNav" active="portfolio" transparent="{{ false }}" hint-size="100%,80px"></dc-import>
+
+<!-- En-tête -->
+<div class="portfolio-header">
+  <div class="portfolio-header__title">Portfolio</div>
+  <p class="portfolio-header__subtitle">Portraits et séances boudoir — un aperçu de moments capturés en douceur.</p>
+  <div class="filter-bar">
+    <div class="{{ filterClassAll }}" onClick="{{ setFilterAll }}">Tous</div>
+    <div class="{{ filterClassPortrait }}" onClick="{{ setFilterPortrait }}">Portrait</div>
+    <div class="{{ filterClassBoudoir }}" onClick="{{ setFilterBoudoir }}">Boudoir</div>
+  </div>
+</div>
+
+<!-- Grille -->
+<div class="portfolio-grid">
+  <div class="portfolio-grid__masonry">
+    <sc-for list="{{ items }}" as="item" hint-placeholder-count="9">
+      <image-slot id="{{ item.id }}" style="{{ item.style }}" shape="rect" fit="cover" src="{{ item.src }}" placeholder="{{ item.placeholder }}"></image-slot>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: 'all' };
+
+  ALL_ITEMS = [
+    { id: 'pf-1', category: 'portrait', tall: true,  src: 'uploads/portraits/_MG_0780.jpg' },
+    { id: 'pf-2', category: 'boudoir',  tall: false, src: 'uploads/boudoir/_B6A6508.jpg' },
+    { id: 'pf-3', category: 'portrait', tall: false, src: 'uploads/portraits/IMG_3268.jpg' },
+    { id: 'pf-4', category: 'boudoir',  tall: true,  src: 'uploads/boudoir/_B6A3891.jpg' },
+    { id: 'pf-5', category: 'portrait', tall: false, src: 'uploads/portraits/_MG_9814.jpg' },
+    { id: 'pf-6', category: 'boudoir',  tall: false, src: 'uploads/boudoir/_B6A2016.jpg' },
+    { id: 'pf-7', category: 'portrait', tall: true,  src: 'uploads/portraits/_B6A4896.jpg' },
+    { id: 'pf-8', category: 'boudoir',  tall: false, src: 'uploads/boudoir/_B6A6786.jpg' },
+    { id: 'pf-9', category: 'portrait', tall: false, src: 'uploads/portraits/_B6A0863.jpg' },
+    { id: 'pf-10', category: 'boudoir', tall: true,  src: 'uploads/boudoir/_B6A3403.jpg' },
+    { id: 'pf-11', category: 'portrait', tall: false, src: 'uploads/portraits/_B6A3213.jpg' },
+    { id: 'pf-12', category: 'boudoir', tall: false, src: 'uploads/boudoir/_MG_9890.jpg' },
+  ];
+
+  filterClass(active) {
+    return 'filter-tab' + (active ? ' filter-tab--active' : '');
+  }
+
+  renderVals() {
+    const filter = this.state.filter;
+    const items = this.ALL_ITEMS
+      .filter(it => filter === 'all' || it.category === filter)
+      .map(it => ({
+        id: it.id,
+        src: it.src,
+        placeholder: it.category === 'portrait' ? 'Photo — portrait' : 'Photo — boudoir',
+        style: 'width:100%;height:100%;grid-row:span ' + (it.tall ? 2 : 1),
+      }));
+
+    return {
+      items,
+      filterClassAll:     this.filterClass(filter === 'all'),
+      filterClassPortrait: this.filterClass(filter === 'portrait'),
+      filterClassBoudoir:  this.filterClass(filter === 'boudoir'),
+      setFilterAll:     () => this.setState({ filter: 'all' }),
+      setFilterPortrait: () => this.setState({ filter: 'portrait' }),
+      setFilterBoudoir:  () => this.setState({ filter: 'boudoir' }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

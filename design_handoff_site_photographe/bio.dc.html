@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<div style="display:none"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="image-slot-loader" hint-size="1,1"></x-import></div>
+<dc-import name="SiteNav" active="bio" transparent="{{ false }}" hint-size="100%,80px"></dc-import>
+
+<!-- Bio -->
+<div class="bio-page">
+  <image-slot id="bio-portrait" style="flex:1;min-width:280px;max-width:420px;height:520px" shape="rect" radius="10" fit="cover" placeholder="Photo de Véronique"></image-slot>
+  <div class="bio-page__content">
+    <div class="bio-page__name">Bonjour, moi c'est Véronique</div>
+    <div class="bio-page__role">Photographe portrait &amp; boudoir</div>
+
+    <p class="bio-page__text">J'ai commencé à photographier des portraits parce que je voulais offrir aux gens une expérience différente de celle qu'on imagine devant une caméra: pas de pression, pas de pose parfaite à tenir — juste de l'espace pour être soi.</p>
+
+    <p class="bio-page__text">Avec les années, je me suis spécialisée dans le portrait personnalisé et la photographie boudoir, parce que ce sont des séances où je vois le plus souvent ce petit déclic: quelqu'un qui se regarde et se trouve belle, peut-être pour la première fois depuis longtemps.</p>
+
+    <p class="bio-page__text bio-page__text--last">Mon studio est un espace feutré et sans jugement. On prend le temps qu'il faut, on met la musique que tu aimes, et on avance à ton rythme. Mon seul objectif: que tu repartes avec des photos qui te ressemblent vraiment.</p>
+
+    <a href="contact.dc.html" class="btn-link">Réservons une séance →</a>
+  </div>
+</div>
+
+<!-- Valeurs -->
+<div class="bio-values">
+  <div class="bio-values__inner">
+    <div class="bio-value">
+      <div class="bio-value__title">Douceur</div>
+      <p class="bio-value__text">Chaque séance avance à ton rythme, sans précipitation.</p>
+    </div>
+    <div class="bio-value">
+      <div class="bio-value__title">Authenticité</div>
+      <p class="bio-value__text">Des photos qui te ressemblent, sans artifice ni pose figée.</p>
+    </div>
+    <div class="bio-value">
+      <div class="bio-value__title">Confidentialité</div>
+      <p class="bio-value__text">Tes photos boudoir restent privées, partagées seulement si tu le choisis.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pied de page -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand-name">Véronique Chantal</div>
+      <div class="site-footer__brand-url">veroniquechantalphoto.ca</div>
+    </div>
+    <div class="site-footer__links">
+      <a href="index.dc.html" class="site-footer__link">Accueil</a>
+      <a href="portfolio.dc.html" class="site-footer__link">Portfolio</a>
+      <a href="services.dc.html" class="site-footer__link">Services</a>
+      <a href="deroulement.dc.html" class="site-footer__link">Déroulement</a>
+      <a href="contact.dc.html" class="site-footer__link">Contact</a>
+    </div>
+  </div>
+  <div class="site-footer__copyright">© 2026 Véronique Chantal Photo</div>
+</footer>
+
+</x-dc>
+</body>
+</html>

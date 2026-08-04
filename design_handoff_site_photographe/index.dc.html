@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</helmet>
+<div style="display:none"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="image-slot-loader" hint-size="1,1"></x-import></div>
+
+<!-- Hero -->
+<div class="hero">
+  <image-slot id="home-hero" style="position:absolute;inset:0;width:100%;height:100%" shape="rect" fit="cover" src="uploads/portraits/p001.jpg" placeholder="Photo héro — portrait plein cadre"></image-slot>
+  <div class="hero__overlay"></div>
+  <div class="hero__inner">
+    <dc-import name="SiteNav" active="accueil" transparent="{{ true }}" hint-size="100%,80px"></dc-import>
+  </div>
+  <div class="hero__content">
+    <div class="hero__title">Véronique Chantal</div>
+    <div class="hero__subtitle">Portraits &amp; séances boudoir — en douceur, sans artifice</div>
+  </div>
+  <div class="hero__cta-wrap">
+    <a href="portfolio.dc.html" class="hero__cta">Voir le portfolio →</a>
+  </div>
+</div>
+
+<!-- Bio preview -->
+<div class="home-bio">
+  <image-slot id="home-bio-avatar" style="width:200px;height:200px;flex:none" shape="circle" fit="cover" placeholder="Photo de Véronique"></image-slot>
+  <div class="home-bio__text">
+    <div class="home-bio__eyebrow">Bonjour</div>
+    <p class="home-bio__desc">Moi c'est Véronique. Je crée des portraits sincères, où l'on se sent vue — pas performée. Mon studio est un espace doux, sans jugement, pour celles qui veulent se redécouvrir devant l'objectif.</p>
+    <a href="bio.dc.html" class="home-bio__link">En savoir plus sur moi →</a>
+  </div>
+</div>
+
+<!-- Portfolio preview -->
+<div class="home-portfolio">
+  <div class="home-portfolio__grid">
+    <image-slot id="home-portfolio-1" style="width:100%;height:680px;" shape="rect" fit="cover" src="uploads/portraits/artiste001.jpg" placeholder="Photo portfolio 1"></image-slot>
+    <image-slot id="home-portfolio-2" style="width:100%;height:680px;" shape="rect" fit="cover" src="uploads/portraits/femme01.jpg" placeholder="Photo portfolio 2"></image-slot>
+    <image-slot id="home-portfolio-3" style="width:100%;height:680px;" shape="rect" fit="cover" src="uploads/portraits/noemie001.jpg" placeholder="Photo portfolio 3"></image-slot>
+  </div>
+  <div class="home-portfolio__header">
+    <div class="home-portfolio__title">Portfolio</div>
+    <a href="portfolio.dc.html" class="home-portfolio__link">Voir tout →</a>
+  </div>
+</div>
+
+<!-- Services preview -->
+<div class="services-section">
+  <div class="container">
+    <div class="services-section__title">Services &amp; forfaits</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-card__title">Portrait classique</div>
+        <p class="service-card__desc">Une séance simple, lumineuse, pour des portraits qui te ressemblent.</p>
+        <div class="service-card__price">dès 250 $</div>
+      </div>
+      <div class="service-card service-card--featured">
+        <div class="service-card__badge">Populaire</div>
+        <div class="service-card__title">Séance boudoir</div>
+        <p class="service-card__desc">Une expérience intimiste, pensée pour te sentir belle et en confiance.</p>
+        <div class="service-card__price service-card__price--plum">dès 350 $</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__title">Forfait duo</div>
+        <p class="service-card__desc">Entre amies, en couple — un moment partagé devant la caméra.</p>
+        <div class="service-card__price">dès 450 $</div>
+      </div>
+    </div>
+    <div class="services-section__footer">
+      <a href="services.dc.html">Voir tous les forfaits →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Déroulement preview -->
+<div class="home-steps">
+  <div class="home-steps__title">Déroulement d'une séance</div>
+  <div class="home-steps__row">
+    <div class="step-item">
+      <div class="step-item__number">1</div>
+      <div class="step-item__text">On discute de ta vision et de tes envies</div>
+    </div>
+    <div class="step-item">
+      <div class="step-item__number">2</div>
+      <div class="step-item__text">Préparation — tenue, lieu, ambiance</div>
+    </div>
+    <div class="step-item">
+      <div class="step-item__number">3</div>
+      <div class="step-item__text">Séance détendue, à ton rythme</div>
+    </div>
+  </div>
+  <div class="home-steps__footer">
+    <a href="deroulement.dc.html">Voir le déroulement complet →</a>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-dark">
+  <div class="cta-dark__title">Prête à vivre l'expérience?</div>
+  <p class="cta-dark__text">Réserve directement un créneau ou écris-moi pour qu'on en discute d'abord.</p>
+  <div class="cta-dark__actions">
+    <a href="#" class="btn btn--gold">Réserver via Calendly</a>
+    <a href="contact.dc.html" class="btn btn--outline-light">Envoyer un message</a>
+  </div>
+</div>
+
+<!-- Pied de page -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand-name">Véronique Chantal</div>
+      <div class="site-footer__brand-url">veroniquechantalphoto.ca</div>
+    </div>
+    <div class="site-footer__links">
+      <a href="portfolio.dc.html" class="site-footer__link">Portfolio</a>
+      <a href="services.dc.html" class="site-footer__link">Services</a>
+      <a href="deroulement.dc.html" class="site-footer__link">Déroulement</a>
+      <a href="bio.dc.html" class="site-footer__link">Bio</a>
+      <a href="contact.dc.html" class="site-footer__link">Contact</a>
+    </div>
+    <div class="site-footer__social">
+      <div class="site-footer__social-icon"></div>
+      <div class="site-footer__social-icon"></div>
+    </div>
+  </div>
+  <div class="site-footer__copyright">© 2026 Véronique Chantal Photo</div>
+</footer>
+
+</x-dc>
+</body>
+</html>

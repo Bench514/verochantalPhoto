@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<nav class="{{ navClass }}">
+  <a href="index.dc.html" class="nav__logo">Véronique Chantal</a>
+  <div class="nav__links">
+    <a href="index.dc.html" class="{{ linkClassAccueil }}">Accueil</a>
+    <a href="portfolio.dc.html" class="{{ linkClassPortfolio }}">Portfolio</a>
+    <a href="services.dc.html" class="{{ linkClassServices }}">Services</a>
+    <a href="deroulement.dc.html" class="{{ linkClassDeroulement }}">Déroulement</a>
+    <a href="bio.dc.html" class="{{ linkClassBio }}">Bio</a>
+    <a href="contact.dc.html" class="{{ linkClassContact }}">Contact</a>
+  </div>
+</nav>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:80},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;accueil&quot;,&quot;options&quot;:[&quot;accueil&quot;,&quot;portfolio&quot;,&quot;services&quot;,&quot;deroulement&quot;,&quot;bio&quot;,&quot;contact&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;transparent&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const transparent = !!this.props.transparent;
+    const active = this.props.active || 'accueil';
+
+    const navClass = 'nav nav--' + (transparent ? 'transparent' : 'solid');
+
+    const linkClass = (key) => {
+      return 'nav__link' + (active === key ? ' nav__link--active' : '');
+    };
+
+    return {
+      navClass,
+      linkClassAccueil:    linkClass('accueil'),
+      linkClassPortfolio:  linkClass('portfolio'),
+      linkClassServices:   linkClass('services'),
+      linkClassDeroulement: linkClass('deroulement'),
+      linkClassBio:        linkClass('bio'),
+      linkClassContact:    linkClass('contact'),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
