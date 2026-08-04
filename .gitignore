@@ -3,6 +3,8 @@ node_modules/
 out/
 build/
 dist/
+*.tsbuildinfo
+next-env.d.ts
 
 # Env
 .env
@@ -18,8 +20,12 @@ yarn-error.log*
 Thumbs.db
 .vscode/*
 !.vscode/extensions.json
+.claude/
 
 # Local DB
 *.db
 *.sqlite
 *.sqlite3
+
+# Local dev uploads (seeded copies of design_handoff photos)
+/uploads-dev/

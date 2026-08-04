@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PhotoCategory {
+  PORTRAIT
+  BOUDOIR
+}
+
+model Photo {
+  id        String        @id @default(cuid())
+  filename  String
+  category  PhotoCategory
+  alt       String        @default("")
+  order     Int           @default(0)
+  createdAt DateTime      @default(now())
+
+  @@index([category, order])
+}
+
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  sessionType String
+  message     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}

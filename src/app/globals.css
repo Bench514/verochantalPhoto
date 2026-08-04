@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/*
+ * Palette strictement monochrome (demande client) : fond pâle, texte foncé,
+ * niveaux de gris pour tout le reste. --color-accent est un point d'entrée
+ * unique pour la future couleur d'accent — tant qu'elle n'est pas choisie,
+ * elle vaut la couleur du texte (donc invisible / pas d'accent).
+ */
+:root {
+  --color-bg: #f7f7f5;
+  --color-bg-alt: #ececea;
+  --color-fg: #191816;
+  --color-fg-muted: #6f6d68;
+  --color-border: #dddad4;
+  --color-dark: #191816;
+  --color-on-dark: #f7f7f5;
+  --color-on-dark-muted: #b9b6b0;
+  --color-accent: #191816;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-fg: var(--color-fg);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-border: var(--color-border);
+  --color-dark: var(--color-dark);
+  --color-on-dark: var(--color-on-dark);
+  --color-on-dark-muted: var(--color-on-dark-muted);
+  --color-accent: var(--color-accent);
+  --font-sans: var(--font-jost);
+  --font-signature: var(--font-caveat);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
