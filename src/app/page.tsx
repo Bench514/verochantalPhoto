@@ -1,9 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
+import Logo from "@/components/Logo";
 import Button from "@/components/Button";
 import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
+import HeroTriptych from "@/components/HeroTriptych";
+
+const HERO_COLUMNS: [string[], string[], string[]] = [
+  [
+    "/images/deroulement-preparation.jpg",
+    "/images/deroulement-seance.jpg",
+    "/images/home-portfolio-1.jpg",
+  ],
+  [
+    "/images/hero.jpg",
+    "/images/deroulement-selection.jpg",
+    "/images/home-portfolio-2.jpg",
+  ],
+  [
+    "/images/deroulement-livraison.jpg",
+    "/images/deroulement-consultation.jpg",
+    "/images/home-portfolio-3.jpg",
+  ],
+];
 
 const SERVICES = [
   {
@@ -33,24 +53,38 @@ const STEPS = [
 export default function Home() {
   return (
     <>
-      <section className="relative h-[92vh] min-h-[600px] w-full">
-        <Image src="/images/hero.jpg" alt="" fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/55" />
-        <SiteNav active="accueil" transparent />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="font-signature text-[clamp(40px,7vw,68px)] text-on-dark drop-shadow-sm">
-            Véronique Chantal
-          </h1>
-          <p className="mt-3 max-w-md text-[clamp(14px,1.6vw,18px)] font-light text-on-dark-muted">
-            Portraits &amp; séances boudoir — en douceur, sans artifice
-          </p>
-        </div>
-        <div className="absolute inset-x-0 bottom-12 flex justify-center">
-          <Button href="/portfolio" variant="outline-on-dark">
-            Voir le portfolio →
-          </Button>
-        </div>
-      </section>
+      <div className="flex min-h-screen flex-col">
+        <SiteNav active="accueil" />
+        <section className="mx-auto flex w-full max-w-[1800px] flex-1 px-[5vw] py-10 sm:py-14">
+          <HeroTriptych
+            columns={HERO_COLUMNS}
+            centerOverlay={
+              <>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/65" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(0,0,0,0.5),rgba(0,0,0,0)_72%)]" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+                  <Logo
+                    as="h1"
+                    shape="lockup"
+                    variant="3b"
+                    size={56}
+                    showServices={false}
+                    className="drop-shadow-sm"
+                  />
+                  <p className="mt-5 max-w-[280px] text-[15px] font-light leading-snug text-on-dark-muted [text-shadow:0_1px_6px_rgba(0,0,0,.4)]">
+                    Portraits &amp; séances boudoir — en douceur, sans artifice
+                  </p>
+                  <div className="mt-7">
+                    <Button href="/portfolio" variant="outline-on-dark">
+                      Voir le portfolio →
+                    </Button>
+                  </div>
+                </div>
+              </>
+            }
+          />
+        </section>
+      </div>
 
       <section className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
         <div className="relative h-[200px] w-[200px] shrink-0 overflow-hidden rounded-full bg-bg-alt">

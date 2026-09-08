@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Jost, Caveat } from "next/font/google";
+import { Jost, Caveat, Italiana, Cormorant_Garamond } from "next/font/google";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -15,6 +15,19 @@ const caveat = Caveat({
   weight: ["600"],
 });
 
+const italiana = Italiana({
+  variable: "--font-italiana",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: "300",
+  style: "italic",
+});
+
 export const metadata: Metadata = {
   title: "Véronique Chantal Photo",
   description:
@@ -23,7 +36,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${jost.variable} ${caveat.variable} h-full antialiased`}>
+    <html
+      lang="fr"
+      className={`${jost.variable} ${caveat.variable} ${italiana.variable} ${cormorant.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col bg-bg text-fg">
         <div className="flex-1 flex flex-col">{children}</div>
         <Footer />

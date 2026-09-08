@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import Logo from "@/components/Logo";
 import type { PhotoDTO } from "@/lib/types";
 
 export default function PhotoLightbox({
@@ -32,15 +33,17 @@ export default function PhotoLightbox({
       >
         ✕
       </button>
-      <Image
-        src={`/uploads/${photo.filename}`}
-        alt={photo.alt || photo.name}
-        width={0}
-        height={0}
-        sizes="90vw"
-        onClick={onClose}
-        style={{ width: "auto", height: "auto", maxWidth: "90vw", maxHeight: "90vh" }}
-      />
+      <div className="relative inline-block" onClick={onClose}>
+        <Image
+          src={`/uploads/${photo.filename}`}
+          alt={photo.alt || photo.name}
+          width={0}
+          height={0}
+          sizes="90vw"
+          style={{ width: "auto", height: "auto", maxWidth: "90vw", maxHeight: "90vh" }}
+        />
+        <Logo shape="watermark" className="pointer-events-none absolute bottom-5 right-5" />
+      </div>
     </div>
   );
 }

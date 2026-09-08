@@ -7,15 +7,22 @@
  * elle vaut la couleur du texte (donc invisible / pas d'accent).
  */
 :root {
-  --color-bg: #f7f7f5;
+  --color-bg: #F7F6F4;
   --color-bg-alt: #ececea;
   --color-fg: #191816;
   --color-fg-muted: #6f6d68;
   --color-border: #dddad4;
   --color-dark: #191816;
-  --color-on-dark: #f7f7f5;
+  --color-on-dark: #F7F6F4;
   --color-on-dark-muted: #b9b6b0;
   --color-accent: #191816;
+
+  /* Logo Véro Chantal (planches 3A/3B) — gris des lignes de baseline/services,
+     trop spécifiques au lockup pour être confondus avec --color-fg-muted. */
+  --color-vc-baseline: #4a4642;
+  --color-vc-services: #6e6863;
+  --color-vc-baseline-on-dark: #bdb8b2;
+  --color-vc-services-on-dark: #a39d97;
 }
 
 @theme inline {
@@ -28,8 +35,14 @@
   --color-on-dark: var(--color-on-dark);
   --color-on-dark-muted: var(--color-on-dark-muted);
   --color-accent: var(--color-accent);
+  --color-vc-baseline: var(--color-vc-baseline);
+  --color-vc-services: var(--color-vc-services);
+  --color-vc-baseline-on-dark: var(--color-vc-baseline-on-dark);
+  --color-vc-services-on-dark: var(--color-vc-services-on-dark);
   --font-sans: var(--font-jost);
   --font-signature: var(--font-caveat);
+  --font-monogram: var(--font-italiana);
+  --font-name: var(--font-cormorant);
 }
 
 body {
