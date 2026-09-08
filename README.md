@@ -64,3 +64,12 @@ Railway — copier le hash tel quel là-bas, sans échappement.
 - `src/app/admin/*` — zone admin protégée (photos, messages)
 - `src/app/uploads/[...path]/route.ts` — sert les photos uploadées depuis `UPLOADS_DIR`
 - `prisma/schema.prisma` — modèles `Photo` et `ContactMessage`
+
+
+***note***
+1. Uploader les vraies photos du portfolio via /admin/photos (la base sur le volume est vide au départ — à moins que tu aies lancé npm run db:seed pour reprendre celles du dossier de design).
+2. Coordonnées réelles — NEXT_PUBLIC_CONTACT_EMAIL / NEXT_PUBLIC_CONTACT_PHONE sur Railway si tu veux autre chose que le placeholder.
+3. Calendly — si Véronique en a un, ajoute CALENDLY_URL sur Railway (sinon les boutons Calendly restent masqués, ce qui est déjà géré proprement).
+4. Couleur d'accent — toujours en attente de votre décision.
+5. Nom de domaine réel (veroniquechantalphoto.ca) — à connecter dans Settings → Networking si vous en achetez un, au lieu de l'URL *.up.railway.app.
+6. Changer le mot de passe admin si celui utilisé pour tester n'est pas le mot de passe définitif de Véronique.
