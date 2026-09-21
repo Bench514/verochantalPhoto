@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { submitContactMessage, type ContactState } from "@/app/contact/actions";
+import { PACKAGES } from "@/lib/packages";
 
 const initialState: ContactState = { status: "idle" };
 
@@ -35,16 +36,18 @@ export default function ContactForm() {
       </div>
       <div>
         <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="sessionType">
-          Type de séance
+          Intéressé par :
         </label>
         <select id="sessionType" name="sessionType" required className={inputClass} defaultValue="">
           <option value="" disabled>
             Choisir...
           </option>
-          <option value="Portrait classique">Portrait classique</option>
-          <option value="Séance boudoir">Séance boudoir</option>
-          <option value="Forfait duo">Forfait duo</option>
-          <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+          {PACKAGES.map((pkg) => (
+            <option key={pkg.key} value={pkg.title}>
+              {pkg.title}
+            </option>
+          ))}
+          <option value="Autre">Autre</option>
         </select>
       </div>
       <div>

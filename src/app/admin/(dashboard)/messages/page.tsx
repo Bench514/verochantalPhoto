@@ -6,7 +6,7 @@ export default async function AdminMessagesPage() {
   });
 
   return (
-    <div>
+    <div className="mx-auto max-w-[1000px] px-6 py-10">
       <h1 className="text-2xl">Messages reçus</h1>
       {messages.length === 0 ? (
         <p className="mt-4 text-sm text-fg-muted">Aucun message pour le moment.</p>

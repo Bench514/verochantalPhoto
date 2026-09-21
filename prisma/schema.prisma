@@ -40,12 +40,15 @@ model PhotoCategoryLink {
 
 enum SessionStatus {
   PENDING
+  GALLERY_SENT
   SUBMITTED
+  COMPLETED
 }
 
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
+  name         String?
   passwordHash String?
   createdAt    DateTime @default(now())
 
@@ -57,16 +60,26 @@ model User {
 // `clientId` everywhere this is queried — never trust a session id from the
 // client alone without also checking ownership.
 model PhotoSession {
-  id          String        @id @default(cuid())
-  clientId    String
-  title       String
-  status      SessionStatus @default(PENDING)
-  submittedAt DateTime?
-  expiresAt   DateTime?
-  createdAt   DateTime      @default(now())
+  id            String        @id @default(cuid())
+  clientId      String
+  title         String
+  // Nombre de photos retouchées incluses dans le forfait — sert au calcul de
+  // la barre de progression et au message de dépassement dans le portail.
+  includedCount Int           @default(15)
+  sessionDate   DateTime      @default(now())
+  status        SessionStatus @default(PENDING)
+  submittedAt   DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime      @default(now())
+  // Photo mise en avant côté portail client (héros de l'Espace Client) et
+  // dans l'aperçu admin. Retombe sur la première photo de la séance quand
+  // aucune couverture n'est choisie, ou que la photo choisie est supprimée
+  // (onDelete: SetNull) — jamais de couverture "cassée".
+  coverPhotoId String?
 
-  client User           @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  photos SessionPhoto[]
+  client     User           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  photos     SessionPhoto[] @relation("SessionPhotos")
+  coverPhoto SessionPhoto?  @relation("SessionCover", fields: [coverPhotoId], references: [id], onDelete: SetNull)
 
   @@index([clientId])
 }
@@ -78,9 +91,11 @@ model SessionPhoto {
   filename   String
   sizeBytes  Int      @default(0)
   selected   Boolean  @default(false)
+  favorite   Boolean  @default(false)
   createdAt  DateTime @default(now())
 
-  session PhotoSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  session      PhotoSession   @relation("SessionPhotos", fields: [sessionId], references: [id], onDelete: Cascade)
+  coverOfSessions PhotoSession[] @relation("SessionCover")
 
   @@index([sessionId])
 }

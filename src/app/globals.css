@@ -17,6 +17,22 @@
   --color-on-dark-muted: #b9b6b0;
   --color-accent: #191816;
 
+  /* Écrans admin (portfolio / séance) — cartes sur fond blanc pur, plus
+     contrastées que --color-bg-alt, avec leurs propres nuances de trait. */
+  --color-card: #ffffff;
+  --color-card-border: #e6e3de;
+  /* Named drop-border, not "dashed" — Tailwind already owns the border-style
+     utility border-dashed, and a color token of the same name would collide
+     with it. */
+  --color-drop-border: #c9c5bd;
+  --color-drop: #efece7;
+  --color-fg-disabled: #a9a6a0;
+
+  /* Seule couleur hors palette monochrome, réservée aux états de confirmation
+     réussie (ex. bannière "sélection soumise") — décision explicite, pas
+     l'accent générique ci-dessus qui reste par ailleurs inactif. */
+  --color-success: #3d6b4f;
+
   /* Logo Véro Chantal (planches 3A/3B) — gris des lignes de baseline/services,
      trop spécifiques au lockup pour être confondus avec --color-fg-muted. */
   --color-vc-baseline: #4a4642;
@@ -35,6 +51,12 @@
   --color-on-dark: var(--color-on-dark);
   --color-on-dark-muted: var(--color-on-dark-muted);
   --color-accent: var(--color-accent);
+  --color-card: var(--color-card);
+  --color-card-border: var(--color-card-border);
+  --color-drop-border: var(--color-drop-border);
+  --color-drop: var(--color-drop);
+  --color-fg-disabled: var(--color-fg-disabled);
+  --color-success: var(--color-success);
   --color-vc-baseline: var(--color-vc-baseline);
   --color-vc-services: var(--color-vc-services);
   --color-vc-baseline-on-dark: var(--color-vc-baseline-on-dark);

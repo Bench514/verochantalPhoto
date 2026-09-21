@@ -9,7 +9,7 @@ export default function ContactPage() {
   return (
     <>
       <SiteNav active="contact" />
-      <section className="mx-auto flex max-w-[1100px] flex-wrap gap-16 px-[6vw] py-16">
+      <section className="mx-auto flex max-w-[1300px] flex-wrap gap-16 px-[6vw] py-16">
         <div className="min-w-[280px] flex-1">
           <h1 className="text-[clamp(28px,3.4vw,40px)]">Contact</h1>
           <p className="mt-3 text-fg-muted">
@@ -34,7 +34,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="min-w-[280px] flex-1">
+        <div className="min-w-[360px] flex-[1.4]">
           <ContactForm />
         </div>
       </section>

@@ -1,13 +1,16 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type Variant = "solid" | "outline" | "outline-on-dark";
+type Variant = "solid" | "outline" | "outline-on-dark" | "invert";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   solid: "bg-fg text-bg hover:opacity-85",
   outline: "border border-fg text-fg hover:bg-fg hover:text-bg",
   "outline-on-dark":
     "border border-on-dark text-on-dark hover:bg-on-dark hover:text-dark",
+  // Bouton "solid" inversé pour une utilisation sur fond sombre (héros,
+  // bandeaux CTA) — fond clair, texte foncé.
+  invert: "bg-bg text-fg hover:opacity-85",
 };
 
 export default function Button({

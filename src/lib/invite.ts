@@ -4,10 +4,18 @@ const INVITE_TTL_DAYS = 7;
 
 export async function createInviteToken(userId: string) {
   const expiresAt = new Date(Date.now() + INVITE_TTL_DAYS * 24 * 60 * 60 * 1000);
-  const invite = await prisma.inviteToken.create({
+  return prisma.inviteToken.create({
     data: { userId, expiresAt },
   });
-  return invite.token;
+}
+
+// Most recent invite token that's still usable — lets the UI show whether a
+// link is already active before the admin generates a new one.
+export async function findActiveInviteToken(userId: string) {
+  return prisma.inviteToken.findFirst({
+    where: { userId, usedAt: null, expiresAt: { gt: new Date() } },
+    orderBy: { createdAt: "desc" },
+  });
 }
 
 export type InviteCheck =

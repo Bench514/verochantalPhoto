@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Italiana&family=Caveat:wght@600&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F7F6F4;font-family:'Jost',system-ui,sans-serif;color:#191816;font-weight:300}
+  a{cursor:pointer;color:#191816}
+  a:hover{color:#6f6d68}
+  .gcard .gover{opacity:0}
+  .gcard:hover .gover{opacity:1}
+</style>
+</helmet>
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 5vw;border-bottom:1px solid #dddad4;background:#F7F6F4;position:sticky;top:0;z-index:40">
+  <div style="display:flex;align-items:center;gap:22px">
+    <a href="Espace Client.dc.html" aria-label="Véro Chantal Photographe — accueil" style="display:inline-flex;flex-direction:column;align-items:center;gap:7px;border:1px solid #191816;padding:9px 13px 8px;text-decoration:none">
+      <span style="font-family:Italiana,serif;font-size:22px;line-height:1;color:#191816;letter-spacing:.08em">VC</span>
+      <span style="height:1px;width:18px;background:#191816;display:block"></span>
+    </a>
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:22px;line-height:1">{{ sessionName }}</div>
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68">Séance du 12 septembre 2026</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;font-size:12px;color:#6f6d68">
+    <a href="Espace Client.dc.html" style="color:#6f6d68;text-decoration:none;font-size:11px;letter-spacing:.08em;text-transform:uppercase">← Accueil</a>
+    <a href="#" style="color:#191816;text-decoration:none;border:1px solid #dddad4;border-radius:2px;padding:8px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase">Déconnexion</a>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,300px);gap:32px;max-width:1500px;margin:0 auto;padding:40px 5vw 120px;align-items:start">
+
+  <div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px">
+      <div>
+        <div style="font-family:Caveat,cursive;font-weight:600;font-size:36px;line-height:1.1;margin-bottom:6px">Vos photos</div>
+        <div style="font-size:13px;color:#6f6d68">{{ totalLabel }}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button type="button" onClick="{{ showAll }}" style="{{ tabAllStyle }}">Toutes</button>
+        <button type="button" onClick="{{ showSelected }}" style="{{ tabSelStyle }}">Sélectionnées</button>
+        <button type="button" onClick="{{ showFavorites }}" style="{{ tabFavStyle }}">Favorites</button>
+      </div>
+    </div>
+
+    <sc-if value="{{ hasFavorites }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;justify-content:flex-end;margin:-16px 0 20px">
+        <button type="button" onClick="{{ clearFavorites }}" style="{{ clearFavStyle }}">Retirer toutes les favorites</button>
+      </div>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">
+      <sc-for list="{{ visible }}" as="photo" hint-placeholder-count="9">
+        <div class="gcard" style="position:relative;aspect-ratio:2/3;background:#ececea;border-radius:2px;overflow:hidden;cursor:zoom-in" onClick="{{ photo.open }}">
+          <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div style="{{ photo.ringStyle }}"></div>
+          <div class="gover" style="position:absolute;inset:0;background:rgba(25,24,22,.28);transition:opacity .18s ease;display:flex;align-items:center;justify-content:center">
+            <button type="button" title="Mettre en favori" onClick="{{ photo.toggleFav }}" style="{{ photo.heartBtnStyle }}">♥</button>
+          </div>
+          <button type="button" title="Choisir cette photo" onClick="{{ photo.toggleSel }}" style="{{ photo.checkStyle }}">✓</button>
+          <div style="{{ photo.favBadgeStyle }}">♥</div>
+          <div style="position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.08em;color:#F7F6F4;text-shadow:0 1px 3px rgba(25,24,22,.6)">{{ photo.no }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid #dddad4;border-radius:2px;padding:56px 32px;text-align:center;color:#6f6d68;font-size:14px">Aucune photo dans cette vue pour l'instant.</div>
+    </sc-if>
+  </div>
+
+  <aside style="position:sticky;top:110px;display:flex;flex-direction:column;gap:20px;max-width:340px">
+    <div style="border:1px solid #dddad4;border-radius:2px;padding:22px">
+      <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6f6d68;margin-bottom:12px">Votre sélection</div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:12px">
+        <span style="font-size:32px;font-weight:300">{{ selCount }}</span>
+        <span style="font-size:14px;color:#6f6d68">/ {{ includedCount }} incluses</span>
+      </div>
+      <div style="height:3px;background:#dddad4;overflow:hidden;margin-bottom:14px"><div style="{{ barStyle }}"></div></div>
+      <div style="font-size:13px;line-height:1.55;color:#6f6d68;margin-bottom:18px">{{ selMessage }}</div>
+      <button type="button" style="{{ confirmStyle }}">Confirmer ma sélection</button>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+        <button type="button" onClick="{{ clearSelection }}" style="{{ clearSelStyle }}">Désélectionner tout</button>
+      </div>
+      <div style="font-size:11px;color:#6f6d68;margin-top:12px;line-height:1.5">Rien n'est envoyé tant que vous n'avez pas confirmé. Il vous reste {{ daysLeft }} jours.</div>
+    </div>
+
+    <div style="background:#ececea;border-radius:2px;padding:22px">
+      <div style="font-family:Caveat,cursive;font-weight:600;font-size:24px;line-height:1.1;margin-bottom:16px">Comment faire</div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+        <span style="flex:none;width:26px;height:26px;border:1px solid #191816;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:12px;background:#191816;color:#F7F6F4">✓</span>
+        <div>
+          <div style="font-size:13px;font-weight:400;margin-bottom:3px">Le crochet, en haut à droite</div>
+          <div style="font-size:12px;line-height:1.55;color:#6f6d68">Ajoute la photo à votre sélection officielle, celle que Véronique retouchera.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+        <span style="flex:none;width:26px;height:26px;border:1px solid #dddad4;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;background:#F7F6F4;color:#191816">♥</span>
+        <div>
+          <div style="font-size:13px;font-weight:400;margin-bottom:3px">Le cœur, au centre</div>
+          <div style="font-size:12px;line-height:1.55;color:#6f6d68">Apparaît quand la souris survole une photo. Un coup de cœur à garder de côté, sans engagement.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+        <span style="flex:none;width:26px;height:26px;border:1px solid #dddad4;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:13px;background:#F7F6F4;color:#191816">⤢</span>
+        <div>
+          <div style="font-size:13px;font-weight:400;margin-bottom:3px">Cliquez sur la photo</div>
+          <div style="font-size:12px;line-height:1.55;color:#6f6d68">Elle s'ouvre en grand. Les flèches du clavier passent à la suivante.</div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid #dddad4;padding-top:14px;font-size:12px;line-height:1.55;color:#6f6d68">Vous pouvez revenir, ajouter et retirer autant de fois que vous le voulez avant de confirmer.</div>
+    </div>
+
+    <div style="border:1px solid #dddad4;border-radius:2px;padding:20px">
+      <div style="font-size:13px;font-weight:400;margin-bottom:6px">Une question ?</div>
+      <div style="font-size:12px;line-height:1.55;color:#6f6d68;margin-bottom:14px">Une envie particulière pour la retouche, un doute entre deux photos : écrivez-moi.</div>
+      <a href="mailto:bonjour@veroniquechantalphoto.ca?subject=Ma%20s%C3%A9ance%20du%2012%20septembre%202026" style="display:inline-block;border:1px solid #191816;border-radius:2px;padding:10px 18px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#191816">Écrire à Véronique</a>
+    </div>
+  </aside>
+</div>
+
+<div style="{{ lightboxStyle }}">
+  <div style="position:absolute;inset:0" onClick="{{ close }}"></div>
+  <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:18px;max-height:100%;pointer-events:none">
+      <div role="img" aria-label="{{ current.alt }}" style="{{ current.bgStyle }}"></div>
+      <div style="display:flex;align-items:center;gap:12px;pointer-events:auto;flex-wrap:wrap;justify-content:center">
+        <button type="button" onClick="{{ toggleSelCurrent }}" style="{{ lbSelStyle }}">{{ lbSelLabel }}</button>
+        <button type="button" onClick="{{ toggleFavCurrent }}" style="{{ lbFavStyle }}">{{ lbFavLabel }}</button>
+      </div>
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b9b6b0">{{ current.no }} — {{ totalLabel }}</div>
+    </div>
+  </sc-if>
+  <button type="button" onClick="{{ prev }}" aria-label="Photo précédente" style="position:absolute;left:3vw;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(247,246,244,.4);color:#F7F6F4;border-radius:2px;width:44px;height:44px;font-size:16px;cursor:pointer;font-family:inherit">←</button>
+  <button type="button" onClick="{{ next }}" aria-label="Photo suivante" style="position:absolute;right:3vw;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(247,246,244,.4);color:#F7F6F4;border-radius:2px;width:44px;height:44px;font-size:16px;cursor:pointer;font-family:inherit">→</button>
+  <button type="button" onClick="{{ close }}" aria-label="Fermer" style="position:absolute;right:3vw;top:28px;background:none;border:1px solid rgba(247,246,244,.4);color:#F7F6F4;border-radius:2px;width:40px;height:40px;font-size:15px;cursor:pointer;font-family:inherit">✕</button>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sessionName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Benoit Chevalier&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;includedCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:15,&quot;min&quot;:1,&quot;max&quot;:60,&quot;tsType&quot;:&quot;number&quot;},&quot;daysLeft&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:27,&quot;min&quot;:0,&quot;max&quot;:90,&quot;tsType&quot;:&quot;number&quot;}}">
+const FILES = [
+  '_B6A0863.jpg','_B6A0927.jpg','_B6A3213.jpg','_B6A3572.jpg','_B6A3876.jpg','_B6A4198.jpg',
+  '_B6A4834.jpg','_B6A4871.jpg','_B6A4896.jpg','_MG_0445.jpg','_MG_0780.jpg','_MG_9814.jpg',
+  '_MG_9860.jpg','IMG_3268.jpg','IMG_3285 1.jpg','IMG_3318.jpg','IMG_3410.jpg','IMG_3442.jpg',
+  'IMG_4160.jpg','IMG_4166.jpg','EC7251E3-1179-4FBC-B63D-6AEA6D372D17_1_105_c.jpeg'
+];
+
+class Component extends DCLogic {
+  state = { selected: {}, favorites: {}, view: 'all', openIndex: -1 };
+
+  componentDidMount() {
+    this._key = (e) => {
+      if (this.state.openIndex < 0) return;
+      if (e.key === 'Escape') this.setState({ openIndex: -1 });
+      if (e.key === 'ArrowRight') this.step(1);
+      if (e.key === 'ArrowLeft') this.step(-1);
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._key); }
+
+  step(d) {
+    const list = this.filtered();
+    const pos = list.findIndex(i => i === this.state.openIndex);
+    if (pos < 0) return;
+    this.setState({ openIndex: list[(pos + d + list.length) % list.length] });
+  }
+  filtered() {
+    const all = FILES.map((_, i) => i);
+    if (this.state.view === 'selected') return all.filter(i => this.state.selected[i]);
+    if (this.state.view === 'favorites') return all.filter(i => this.state.favorites[i]);
+    return all;
+  }
+  toggle(key, i) {
+    this.setState(s => {
+      const m = Object.assign({}, s[key]);
+      if (m[i]) delete m[i]; else m[i] = true;
+      return { [key]: m };
+    });
+  }
+
+  tab(active) {
+    return 'font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border-radius:2px;cursor:pointer;border:1px solid ' +
+      (active ? '#191816;background:#191816;color:#F7F6F4' : '#dddad4;background:transparent;color:#6f6d68');
+  }
+
+  renderVals() {
+    const included = this.props.includedCount ?? 15;
+    const sel = this.state.selected, fav = this.state.favorites;
+    const selCount = Object.keys(sel).length;
+    const list = this.filtered();
+
+    const photos = list.map(i => ({
+      key: i,
+      no: String(i + 1).padStart(2, '0'),
+      src: 'uploads/portraits/' + FILES[i],
+      alt: 'Photo ' + (i + 1) + ' de la séance',
+      open: () => this.setState({ openIndex: i }),
+      toggleSel: (e) => { e.stopPropagation(); this.toggle('selected', i); },
+      toggleFav: (e) => { e.stopPropagation(); this.toggle('favorites', i); },
+      ringStyle: 'position:absolute;inset:0;pointer-events:none;border-radius:2px;border:' + (sel[i] ? '3px solid #191816' : '0'),
+      checkStyle: 'position:absolute;top:9px;right:9px;width:28px;height:28px;border-radius:9999px;cursor:pointer;font-family:inherit;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .15s ease;border:1px solid ' +
+        (sel[i] ? '#191816;background:#191816;color:#F7F6F4' : 'rgba(247,246,244,.8);background:rgba(25,24,22,.25);color:#F7F6F4'),
+      heartBtnStyle: 'width:52px;height:52px;border-radius:9999px;cursor:pointer;font-family:inherit;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;border:1px solid rgba(247,246,244,.7);background:' +
+        (fav[i] ? '#F7F6F4;color:#191816' : 'rgba(25,24,22,.3);color:#F7F6F4'),
+      favBadgeStyle: 'position:absolute;left:9px;top:9px;font-size:13px;color:#F7F6F4;text-shadow:0 1px 3px rgba(25,24,22,.7);display:' + (fav[i] ? 'block' : 'none')
+    }));
+
+    const oi = this.state.openIndex;
+    const open = oi >= 0;
+    const current = open
+      ? {
+          alt: 'Photo ' + (oi + 1) + ' de la séance',
+          no: 'Photo ' + String(oi + 1).padStart(2, '0'),
+          bgStyle: "height:74vh;width:78vw;background-image:url('uploads/portraits/" + encodeURI(FILES[oi]) + "');background-size:contain;background-position:center;background-repeat:no-repeat;pointer-events:auto"
+        }
+      : { alt: '', no: '', bgStyle: 'display:none' };
+
+    const lbBtn = (on) => 'font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:12px 22px;border-radius:2px;cursor:pointer;border:1px solid ' +
+      (on ? '#F7F6F4;background:#F7F6F4;color:#191816' : 'rgba(247,246,244,.5);background:transparent;color:#F7F6F4');
+
+    let selMessage;
+    if (selCount === 0) selMessage = 'Aucune photo choisie pour le moment. Cochez celles qui vous plaisent.';
+    else if (selCount < included) selMessage = 'Encore ' + (included - selCount) + ' photo' + (included - selCount > 1 ? 's' : '') + ' incluses à votre forfait.';
+    else if (selCount === included) selMessage = 'Votre forfait est complet. Vous pouvez confirmer.';
+    else selMessage = (selCount - included) + ' photo' + (selCount - included > 1 ? 's' : '') + ' au-delà du forfait : Véronique vous indiquera le tarif.';
+
+    return {
+      sessionName: this.props.sessionName ?? 'Benoit Chevalier',
+      includedCount: included,
+      daysLeft: this.props.daysLeft ?? 27,
+      totalLabel: FILES.length + ' photos',
+      visible: photos,
+      isEmpty: list.length === 0,
+      selCount,
+      selMessage,
+      barStyle: 'width:' + Math.min(100, (selCount / included) * 100) + '%;height:100%;background:#191816;transition:width .2s ease',
+      confirmStyle: 'width:100%;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:14px;border-radius:2px;border:1px solid #191816;' +
+        (selCount > 0 ? 'background:#191816;color:#F7F6F4;cursor:pointer' : 'background:transparent;color:#6f6d68;border-color:#dddad4;cursor:not-allowed'),
+      clearSelection: () => this.setState({ selected: {} }),
+      clearFavorites: () => this.setState({ favorites: {} }),
+      clearSelStyle: 'width:100%;font-family:inherit;font-size:11px;letter-spacing:.06em;padding:9px;border:0;background:none;text-align:left;text-decoration:underline;text-underline-offset:3px;color:' +
+        (selCount > 0 ? '#6f6d68;cursor:pointer' : '#b9b6b0;cursor:not-allowed;text-decoration:none'),
+      hasFavorites: Object.keys(fav).length > 0,
+      clearFavStyle: 'font-family:inherit;font-size:11px;letter-spacing:.06em;padding:4px 0;border:0;background:none;text-decoration:underline;text-underline-offset:3px;color:#6f6d68;cursor:pointer',
+      showAll: () => this.setState({ view: 'all' }),
+      showSelected: () => this.setState({ view: 'selected' }),
+      showFavorites: () => this.setState({ view: 'favorites' }),
+      tabAllStyle: this.tab(this.state.view === 'all'),
+      tabSelStyle: this.tab(this.state.view === 'selected'),
+      tabFavStyle: this.tab(this.state.view === 'favorites'),
+      lightboxStyle: 'position:fixed;inset:0;z-index:100;background:rgba(25,24,22,.96);align-items:center;justify-content:center;padding:32px;display:' + (open ? 'flex' : 'none'),
+      current,
+      isOpen: open,
+      close: () => this.setState({ openIndex: -1 }),
+      prev: () => this.step(-1),
+      next: () => this.step(1),
+      toggleSelCurrent: () => this.toggle('selected', oi),
+      toggleFavCurrent: () => this.toggle('favorites', oi),
+      lbSelStyle: lbBtn(!!sel[oi]),
+      lbFavStyle: lbBtn(!!fav[oi]),
+      lbSelLabel: sel[oi] ? '✓ Choisie' : 'Choisir cette photo',
+      lbFavLabel: fav[oi] ? '♥ Favorite' : '♥ Coup de cœur'
+    };
+  }
+}
+</script>
+</body>
+</html>

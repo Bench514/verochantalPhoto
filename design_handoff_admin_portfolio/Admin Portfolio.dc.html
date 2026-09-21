@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Italiana&family=Caveat:wght@600&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#F7F6F4;font-family:'Jost',system-ui,sans-serif;color:#191816;font-weight:300}
+  a{cursor:pointer;color:#191816}
+  a:hover{color:#6f6d68}
+  .pcard .pover{opacity:0}
+  .pcard:hover .pover{opacity:1}
+</style>
+</helmet>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 4vw;border-bottom:1px solid #dddad4;background:#F7F6F4;position:sticky;top:0;z-index:40">
+  <div style="display:flex;align-items:center;gap:28px">
+    <a href="index.dc.html" aria-label="Véro Chantal Photographe — accueil" style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;border:1px solid #191816;padding:8px 12px 7px;text-decoration:none">
+      <span style="font-family:Italiana,serif;font-size:19px;line-height:1;letter-spacing:.08em">VC</span>
+      <span style="height:1px;width:16px;background:#191816;display:block"></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:22px;font-size:12px;letter-spacing:.08em;text-transform:uppercase">
+      <a href="#" style="text-decoration:none;border-bottom:1px solid #191816;padding-bottom:3px">Photos</a>
+      <a href="Admin Séance.dc.html" style="text-decoration:none;color:#6f6d68">Séances</a>
+      <a href="#" style="text-decoration:none;color:#6f6d68">Messages</a>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;font-size:12px;color:#6f6d68">
+    <span>admin@example.com</span>
+    <a href="#" style="text-decoration:none;border:1px solid #dddad4;border-radius:2px;padding:7px 14px;font-size:11px;letter-spacing:.08em;text-transform:uppercase">Déconnexion</a>
+  </div>
+</div>
+
+<div style="max-width:1500px;margin:0 auto;padding:36px 4vw 100px">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:30px">
+    <div style="max-width:620px">
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(34px,4.4vw,52px);line-height:1.05;margin:0 0 10px">Photos du portfolio</div>
+      <p style="font-size:14px;line-height:1.6;color:#6f6d68;margin:0">Ces photos alimentent la grille de la page Portfolio publique. Une photo peut appartenir à une ou aux deux catégories.</p>
+    </div>
+    <a href="portfolio.dc.html" style="text-decoration:none;border:1px solid #dddad4;border-radius:2px;padding:11px 18px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap">Voir la page publique</a>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border:1px solid #dddad4;border-radius:2px;background:#fff;margin-bottom:36px">
+    <div style="padding:20px 24px;border-right:1px solid #dddad4">
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68;margin-bottom:8px">Photos en ligne</div>
+      <div style="font-size:30px;font-weight:300;line-height:1">{{ total }}</div>
+    </div>
+    <div style="padding:20px 24px;border-right:1px solid #dddad4">
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68;margin-bottom:8px">Portrait</div>
+      <div style="font-size:30px;font-weight:300;line-height:1">{{ nPortrait }}</div>
+    </div>
+    <div style="padding:20px 24px;border-right:1px solid #dddad4">
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68;margin-bottom:8px">Boudoir</div>
+      <div style="font-size:30px;font-weight:300;line-height:1">{{ nBoudoir }}</div>
+    </div>
+    <div style="padding:20px 24px">
+      <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68;margin-bottom:8px">Sans catégorie</div>
+      <div style="{{ orphanStyle }}">{{ nOrphan }}</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,330px);gap:36px;align-items:start">
+
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+            <button type="button" onClick="{{ tab.pick }}" style="{{ tab.style }}">{{ tab.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;font-size:12px;color:#6f6d68">
+          <button type="button" onClick="{{ toggleAll }}" style="border:none;background:transparent;font-family:inherit;font-size:12px;color:#6f6d68;cursor:pointer;padding:0;border-bottom:1px solid #dddad4">{{ toggleAllLabel }}</button>
+          <span>{{ countLabel }}</span>
+        </div>
+      </div>
+
+      <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#191816;color:#F7F6F4;border-radius:2px;padding:12px 18px;margin-bottom:16px">
+          <span style="font-size:13px">{{ selLabel }}</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" onClick="{{ bulkPortrait }}" style="border:1px solid rgba(247,246,244,.4);background:transparent;color:#F7F6F4;border-radius:2px;padding:8px 16px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Classer en portrait</button>
+            <button type="button" onClick="{{ bulkBoudoir }}" style="border:1px solid rgba(247,246,244,.4);background:transparent;color:#F7F6F4;border-radius:2px;padding:8px 16px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Classer en boudoir</button>
+            <button type="button" onClick="{{ clearSelection }}" style="border:1px solid rgba(247,246,244,.4);background:transparent;color:#F7F6F4;border-radius:2px;padding:8px 16px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Annuler</button>
+            <button type="button" onClick="{{ deleteSelected }}" style="border:none;background:#F7F6F4;color:#191816;border-radius:2px;padding:8px 16px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Supprimer</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+        <sc-for list="{{ photos }}" as="photo" hint-placeholder-count="9">
+          <div class="pcard" style="{{ photo.cardStyle }}">
+            <div style="position:relative;aspect-ratio:3/4;background:#ececea;overflow:hidden">
+              <img src="{{ photo.src }}" alt="{{ photo.name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" />
+              <div class="pover" style="position:absolute;inset:0;background:rgba(25,24,22,.4);transition:opacity .16s ease;display:flex;flex-direction:column;justify-content:space-between;padding:8px">
+                <div style="display:flex;gap:6px">
+                  <button type="button" title="Déplacer avant" onClick="{{ photo.moveUp }}" style="width:30px;height:30px;border:1px solid rgba(247,246,244,.6);background:transparent;color:#F7F6F4;border-radius:2px;font-family:inherit;font-size:13px;cursor:pointer;padding:0">↑</button>
+                  <button type="button" title="Déplacer après" onClick="{{ photo.moveDown }}" style="width:30px;height:30px;border:1px solid rgba(247,246,244,.6);background:transparent;color:#F7F6F4;border-radius:2px;font-family:inherit;font-size:13px;cursor:pointer;padding:0">↓</button>
+                </div>
+                <button type="button" title="Supprimer" onClick="{{ photo.remove }}" style="border:none;background:#F7F6F4;color:#191816;border-radius:2px;padding:7px 12px;font-family:inherit;font-size:11px;letter-spacing:.06em;cursor:pointer">Supprimer</button>
+              </div>
+              <button type="button" title="Sélectionner" onClick="{{ photo.toggleSel }}" style="{{ photo.checkStyle }}">✓</button>
+              <div style="position:absolute;left:0;top:0;background:rgba(25,24,22,.75);color:#F7F6F4;font-size:9px;letter-spacing:.12em;padding:5px 9px;border-bottom-right-radius:2px">{{ photo.rank }}</div>
+            </div>
+            <div style="padding:10px 12px;border-top:1px solid #e6e3de">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
+                <span style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ photo.name }}</span>
+                <span style="font-size:11px;color:#6f6d68;flex:none">{{ photo.size }}</span>
+              </div>
+              <div style="display:flex;gap:6px">
+                <button type="button" onClick="{{ photo.togglePortrait }}" style="{{ photo.portraitStyle }}">Portrait</button>
+                <button type="button" onClick="{{ photo.toggleBoudoir }}" style="{{ photo.boudoirStyle }}">Boudoir</button>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid #dddad4;border-radius:2px;padding:56px 32px;text-align:center;font-size:14px;color:#6f6d68">Aucune photo dans cette vue.</div>
+      </sc-if>
+    </div>
+
+    <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:20px">
+      <div onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="{{ dropStyle }}">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6f6d68;margin-bottom:14px">Ajouter des photos</div>
+        <div style="font-size:14px;margin-bottom:6px">Glissez vos photos ici</div>
+        <div style="font-size:12px;color:#6f6d68;margin-bottom:16px">JPEG ou PNG, 20 Mo maximum</div>
+
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6f6d68;margin-bottom:8px">Catégorie à l'ajout</div>
+        <div style="display:flex;gap:6px;margin-bottom:16px">
+          <button type="button" onClick="{{ toggleNewPortrait }}" style="{{ newPortraitStyle }}">Portrait</button>
+          <button type="button" onClick="{{ toggleNewBoudoir }}" style="{{ newBoudoirStyle }}">Boudoir</button>
+        </div>
+
+        <button type="button" onClick="{{ openPicker }}" style="width:100%;background:#191816;color:#F7F6F4;border:none;border-radius:2px;padding:12px 18px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Choisir des fichiers</button>
+        <input type="file" accept="image/*" multiple ref="{{ fileRef }}" onChange="{{ onFiles }}" style="display:none" />
+      </div>
+
+      <div style="border:1px solid #dddad4;border-radius:2px;background:#fff;padding:22px">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6f6d68;margin-bottom:14px">Ordre d'affichage</div>
+        <p style="font-size:13px;line-height:1.6;color:#6f6d68;margin:0">Le numéro sur chaque vignette est sa position dans la grille publique. Les flèches, au survol, déplacent la photo d'un cran.</p>
+      </div>
+
+      <div style="border:1px solid #dddad4;border-radius:2px;padding:22px">
+        <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6f6d68;margin-bottom:10px">À surveiller</div>
+        <p style="font-size:13px;line-height:1.6;color:#6f6d68;margin:0">{{ orphanMessage }}</p>
+      </div>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SEED = [
+  ['_B6A0927.jpg','portraits','2884 Ko',['portrait']],
+  ['_B6A0863.jpg','portraits','3675 Ko',['portrait']],
+  ['_B6A3572.jpg','portraits','2127 Ko',['portrait']],
+  ['_B6A3213.jpg','portraits','5149 Ko',['portrait']],
+  ['_B6A3876.jpg','portraits','2107 Ko',['portrait']],
+  ['_B6A4198.jpg','portraits','3923 Ko',['portrait']],
+  ['IMG_3268.jpg','portraits','129 Ko',['portrait']],
+  ['_B6A1963.jpg','boudoir','3410 Ko',['boudoir']],
+  ['_B6A3403.jpg','boudoir','2980 Ko',['boudoir']],
+  ['_B6A6508.jpg','boudoir','3255 Ko',['boudoir','portrait']],
+  ['_MG_0387.jpg','boudoir','2740 Ko',['boudoir']],
+  ['IMG_4305.jpg','boudoir','1980 Ko',[]]
+];
+const EXTRA = [
+  ['_MG_0445.jpg','portraits','2760 Ko'],['_MG_0780.jpg','portraits','3488 Ko'],
+  ['_B6A4415.jpg','boudoir','3102 Ko'],['_B6A7798.jpg','boudoir','2644 Ko']
+];
+const TABS = [
+  ['all','Toutes'],['portrait','Portrait'],['boudoir','Boudoir'],['none','Sans catégorie']
+];
+
+class Component extends DCLogic {
+  state = {
+    photos: SEED.map((f, i) => ({ id: i, name: f[0], dir: f[1], size: f[2], cats: f[3] })),
+    view: 'all', sel: {}, drag: false, added: 0, newCats: ['portrait']
+  };
+
+  inView(p, view) {
+    if (view === 'all') return true;
+    if (view === 'none') return p.cats.length === 0;
+    return p.cats.indexOf(view) !== -1;
+  }
+
+  addPhotos(count) {
+    this.setState(s => {
+      const pool = EXTRA.slice(s.added, s.added + count);
+      if (!pool.length) return null;
+      const base = s.photos.length ? Math.max(...s.photos.map(p => p.id)) + 1 : 0;
+      return {
+        added: s.added + pool.length,
+        photos: [...s.photos, ...pool.map((f, i) => ({
+          id: base + i, name: f[0], dir: f[1], size: f[2], cats: [...s.newCats]
+        }))]
+      };
+    });
+  }
+
+  move(id, dir) {
+    this.setState(s => {
+      const list = [...s.photos];
+      const i = list.findIndex(p => p.id === id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= list.length) return null;
+      [list[i], list[j]] = [list[j], list[i]];
+      return { photos: list };
+    });
+  }
+
+  toggleCat(id, cat) {
+    this.setState(s => ({
+      photos: s.photos.map(p => p.id !== id ? p : {
+        ...p,
+        cats: p.cats.indexOf(cat) === -1 ? [...p.cats, cat] : p.cats.filter(c => c !== cat)
+      })
+    }));
+  }
+
+  bulkCat(cat) {
+    this.setState(s => ({
+      photos: s.photos.map(p => (!s.sel[p.id] || p.cats.indexOf(cat) !== -1) ? p : { ...p, cats: [...p.cats, cat] }),
+      sel: {}
+    }));
+  }
+
+  renderVals() {
+    const { photos, view, sel, drag, newCats } = this.state;
+    const visible = photos.filter(p => this.inView(p, view));
+    const selIds = Object.keys(sel).filter(k => sel[k]);
+    const n = selIds.length;
+    const allSel = n > 0 && visible.every(p => sel[p.id]);
+    const nOrphan = photos.filter(p => p.cats.length === 0).length;
+
+    const chip = (on) => `flex:1;border:1px solid ${on ? '#191816' : '#dddad4'};background:${on ? '#191816' : 'transparent'};color:${on ? '#F7F6F4' : '#6f6d68'};border-radius:2px;padding:7px 8px;font-family:inherit;font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer`;
+
+    return {
+      total: photos.length,
+      nPortrait: photos.filter(p => p.cats.indexOf('portrait') !== -1).length,
+      nBoudoir: photos.filter(p => p.cats.indexOf('boudoir') !== -1).length,
+      nOrphan,
+      orphanStyle: `font-size:30px;font-weight:300;line-height:1;color:${nOrphan ? '#191816' : '#a9a6a0'}`,
+      orphanMessage: nOrphan
+        ? `${nOrphan} photo${nOrphan > 1 ? 's n\u2019apparaissent' : ' n\u2019appara\u00eet'} sur aucune page publique, faute de cat\u00e9gorie.`
+        : 'Toutes les photos sont class\u00e9es dans au moins une cat\u00e9gorie.',
+
+      tabs: TABS.map(([key, label]) => {
+        const on = view === key;
+        return {
+          label,
+          style: `border:1px solid ${on ? '#191816' : '#dddad4'};background:${on ? '#191816' : 'transparent'};color:${on ? '#F7F6F4' : '#6f6d68'};border-radius:2px;padding:9px 16px;font-family:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer`,
+          pick: () => this.setState({ view: key })
+        };
+      }),
+
+      countLabel: `${visible.length} photo${visible.length > 1 ? 's' : ''}`,
+      isEmpty: visible.length === 0,
+      toggleAllLabel: allSel ? 'Tout désélectionner' : 'Tout sélectionner',
+      toggleAll: () => this.setState(s => {
+        const vis = s.photos.filter(p => this.inView(p, s.view));
+        const all = vis.length > 0 && vis.every(p => s.sel[p.id]);
+        const next = {};
+        if (!all) vis.forEach(p => next[p.id] = true);
+        return { sel: next };
+      }),
+      hasSelection: n > 0,
+      selLabel: `${n} sélectionnée${n > 1 ? 's' : ''}`,
+      clearSelection: () => this.setState({ sel: {} }),
+      bulkPortrait: () => this.bulkCat('portrait'),
+      bulkBoudoir: () => this.bulkCat('boudoir'),
+      deleteSelected: () => this.setState(s => ({ photos: s.photos.filter(p => !s.sel[p.id]), sel: {} })),
+
+      dropStyle: `border:1px dashed ${drag ? '#191816' : '#c9c5bd'};background:${drag ? '#efece7' : '#fff'};border-radius:2px;padding:22px;transition:background .15s ease`,
+      onDragOver: (e) => { e.preventDefault(); if (!drag) this.setState({ drag: true }); },
+      onDragLeave: () => this.setState({ drag: false }),
+      onDrop: (e) => {
+        e.preventDefault();
+        this.setState({ drag: false });
+        this.addPhotos(e.dataTransfer && e.dataTransfer.files ? Math.max(1, e.dataTransfer.files.length) : 2);
+      },
+      fileRef: (el) => { this.fileInput = el; },
+      openPicker: () => { if (this.fileInput) this.fileInput.click(); },
+      onFiles: (e) => {
+        const c = e.target.files ? e.target.files.length : 0;
+        if (c) this.addPhotos(c);
+        e.target.value = '';
+      },
+      newPortraitStyle: chip(newCats.indexOf('portrait') !== -1),
+      newBoudoirStyle: chip(newCats.indexOf('boudoir') !== -1),
+      toggleNewPortrait: () => this.setState(s => ({
+        newCats: s.newCats.indexOf('portrait') === -1 ? [...s.newCats, 'portrait'] : s.newCats.filter(c => c !== 'portrait')
+      })),
+      toggleNewBoudoir: () => this.setState(s => ({
+        newCats: s.newCats.indexOf('boudoir') === -1 ? [...s.newCats, 'boudoir'] : s.newCats.filter(c => c !== 'boudoir')
+      })),
+
+      photos: visible.map(p => {
+        const on = !!sel[p.id];
+        const rank = photos.findIndex(x => x.id === p.id) + 1;
+        return {
+          name: p.name,
+          size: p.size,
+          src: `uploads/${p.dir}/${p.name}`,
+          rank: String(rank).padStart(2, '0'),
+          cardStyle: `border:1px solid ${on ? '#191816' : '#e6e3de'};border-radius:2px;overflow:hidden;background:#fff`,
+          checkStyle: `position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:2px;border:1px solid ${on ? '#191816' : 'rgba(247,246,244,.8)'};background:${on ? '#191816' : 'rgba(247,246,244,.85)'};color:${on ? '#F7F6F4' : 'transparent'};font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0`,
+          portraitStyle: chip(p.cats.indexOf('portrait') !== -1),
+          boudoirStyle: chip(p.cats.indexOf('boudoir') !== -1),
+          toggleSel: () => this.setState(s => ({ sel: { ...s.sel, [p.id]: !s.sel[p.id] } })),
+          togglePortrait: () => this.toggleCat(p.id, 'portrait'),
+          toggleBoudoir: () => this.toggleCat(p.id, 'boudoir'),
+          moveUp: () => this.move(p.id, -1),
+          moveDown: () => this.move(p.id, 1),
+          remove: () => this.setState(s => ({ photos: s.photos.filter(x => x.id !== p.id) }))
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

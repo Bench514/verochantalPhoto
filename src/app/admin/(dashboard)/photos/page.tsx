@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { ALL_CATEGORIES, CATEGORY_LABEL, type PhotoDTO } from "@/lib/types";
-import PhotoRow from "@/components/admin/PhotoRow";
-import { uploadPhotoAction } from "./actions";
+import type { PhotoDTO } from "@/lib/types";
+import PortfolioGridClient from "@/components/admin/PortfolioGridClient";
+import AddPhotosPanel from "@/components/admin/AddPhotosPanel";
 
 export default async function AdminPhotosPage() {
   const rows = await prisma.photo.findMany({
@@ -19,81 +20,83 @@ export default async function AdminPhotosPage() {
     categories: p.categories.map((c) => ({ category: c.category, order: c.order })),
   }));
 
+  const portraitCount = photos.filter((p) => p.categories.some((c) => c.category === "PORTRAIT"))
+    .length;
+  const boudoirCount = photos.filter((p) => p.categories.some((c) => c.category === "BOUDOIR"))
+    .length;
+  const noCategoryCount = photos.filter((p) => p.categories.length === 0).length;
+
   return (
     <div>
-      <h1 className="text-2xl">Photos du portfolio</h1>
-      <p className="mt-1 text-sm text-fg-muted">
-        Ces photos alimentent la grille de la page Portfolio publique. Une photo peut
-        appartenir à une ou aux deux catégories.
-      </p>
-
-      <form
-        action={uploadPhotoAction}
-        encType="multipart/form-data"
-        className="mt-8 flex flex-wrap items-end gap-3 rounded-sm bg-bg-alt p-6"
-      >
-        <div>
-          <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="files">
-            Nouvelle(s) photo(s)
-          </label>
-          <input
-            id="files"
-            name="files"
-            type="file"
-            accept="image/*"
-            multiple
-            required
-            className="text-sm"
-          />
+      <div className="flex flex-wrap items-end justify-between gap-6 px-[4vw] pt-9">
+        <div className="max-w-[620px]">
+          <h1 className="font-name text-[clamp(34px,4.4vw,52px)] italic leading-none">
+            Photos du portfolio
+          </h1>
+          <p className="mt-3 text-sm text-fg-muted">
+            Téléversez les photos, classez-les en Portrait et/ou Boudoir, et ajustez leur ordre
+            d&rsquo;affichage dans la grille publique.
+          </p>
         </div>
-        <div>
-          <span className="mb-1.5 block text-[13px] text-fg-muted">Catégorie(s)</span>
-          <div className="flex items-center gap-3 py-2">
-            {ALL_CATEGORIES.map((c) => (
-              <label key={c} className="flex items-center gap-1.5 text-sm">
-                <input type="checkbox" name="categories" value={c} />
-                {CATEGORY_LABEL[c]}
-              </label>
-            ))}
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="rounded-sm bg-fg px-5 py-2.5 text-[13px] tracking-[0.03em] text-bg hover:opacity-85"
+        <Link
+          href="/portfolio"
+          className="rounded-sm border border-border px-4 py-2.5 text-[11px] uppercase tracking-[0.08em] text-fg hover:border-fg"
         >
-          Ajouter
-        </button>
-      </form>
+          Voir la page publique
+        </Link>
+      </div>
 
-      {ALL_CATEGORIES.map((category) => {
-        const items = photos
-          .filter((p) => p.categories.some((c) => c.category === category))
-          .sort((a, b) => {
-            const oa = a.categories.find((c) => c.category === category)!.order;
-            const ob = b.categories.find((c) => c.category === category)!.order;
-            return oa - ob;
-          });
-        return (
-          <div key={category} className="mt-10">
-            <h2 className="mb-2 text-sm uppercase tracking-[0.06em] text-fg-muted">
-              {CATEGORY_LABEL[category]} ({items.length})
-            </h2>
-            {items.length === 0 ? (
-              <p className="py-4 text-sm text-fg-muted">Aucune photo.</p>
-            ) : (
-              items.map((photo, i) => (
-                <PhotoRow
-                  key={photo.id}
-                  photo={photo}
-                  sectionCategory={category}
-                  isFirst={i === 0}
-                  isLast={i === items.length - 1}
-                />
-              ))
-            )}
+      <div className="mx-[4vw] mt-7 grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] divide-x divide-border rounded-sm border border-border bg-card">
+        <div className="px-6 py-5">
+          <div className="mb-2 text-[10px] uppercase tracking-[0.12em] text-fg-muted">
+            Photos en ligne
           </div>
-        );
-      })}
+          <div className="text-[30px] font-light">{photos.length}</div>
+        </div>
+        <div className="px-6 py-5">
+          <div className="mb-2 text-[10px] uppercase tracking-[0.12em] text-fg-muted">Portrait</div>
+          <div className="text-[30px] font-light">{portraitCount}</div>
+        </div>
+        <div className="px-6 py-5">
+          <div className="mb-2 text-[10px] uppercase tracking-[0.12em] text-fg-muted">Boudoir</div>
+          <div className="text-[30px] font-light">{boudoirCount}</div>
+        </div>
+        <div className="px-6 py-5">
+          <div className="mb-2 text-[10px] uppercase tracking-[0.12em] text-fg-muted">
+            Sans catégorie
+          </div>
+          <div className={`text-[30px] font-light ${noCategoryCount === 0 ? "text-fg-disabled" : ""}`}>
+            {noCategoryCount}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-9 px-[4vw] pb-24 pt-9 md:grid-cols-[minmax(0,1fr)_minmax(260px,330px)] md:items-start">
+        <PortfolioGridClient photos={photos} />
+
+        <aside className="flex flex-col gap-5 md:sticky md:top-24">
+          <AddPhotosPanel />
+
+          <div className="rounded-sm border border-border bg-card p-[22px]">
+            <div className="mb-1.5 text-[13px]">Ordre d&rsquo;affichage</div>
+            <p className="text-xs leading-[1.55] text-fg-muted">
+              Le numéro sur chaque vignette est sa position dans la grille publique de la
+              catégorie affichée. Glissez une photo (poignée ⠿ au survol) pour la déplacer —
+              actif uniquement dans l&rsquo;onglet Portrait ou Boudoir, puisque c&rsquo;est
+              l&rsquo;ordre qui s&rsquo;affiche vraiment sur le site.
+            </p>
+          </div>
+
+          <div className="rounded-sm border border-border p-[22px]">
+            <div className="mb-1.5 text-[13px]">À surveiller</div>
+            <p className="text-xs leading-[1.55] text-fg-muted">
+              {noCategoryCount > 0
+                ? `${noCategoryCount} photo${noCategoryCount > 1 ? "s n'apparaissent" : " n'apparaît"} sur aucune page publique, faute de catégorie.`
+                : "Toutes les photos sont classées dans au moins une catégorie."}
+            </p>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

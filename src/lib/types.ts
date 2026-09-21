@@ -22,13 +22,35 @@ export const CATEGORY_LABEL: Record<PhotoCategory, string> = {
 
 export const ALL_CATEGORIES: PhotoCategory[] = ["PORTRAIT", "BOUDOIR"];
 
-export type SessionStatus = "PENDING" | "SUBMITTED";
+export type SessionStatus = "PENDING" | "GALLERY_SENT" | "SUBMITTED" | "COMPLETED";
+
+export const SESSION_STATUS_LABEL: Record<SessionStatus, string> = {
+  PENDING: "En attente",
+  GALLERY_SENT: "Galerie envoyée",
+  SUBMITTED: "Sélection reçue",
+  COMPLETED: "Terminée",
+};
+
+export const ALL_SESSION_STATUSES: SessionStatus[] = [
+  "PENDING",
+  "GALLERY_SENT",
+  "SUBMITTED",
+  "COMPLETED",
+];
+
+// Once the client has confirmed their selection, their edits (selection,
+// favorites) are frozen — and the photos backing that selection can no
+// longer be deleted, at any later status.
+export function isSessionLocked(status: SessionStatus): boolean {
+  return status === "SUBMITTED" || status === "COMPLETED";
+}
 
 export type SessionPhotoDTO = {
   id: string;
   filename: string;
   sizeBytes: number;
   selected: boolean;
+  favorite: boolean;
 };
 
 export type PhotoSessionDTO = {

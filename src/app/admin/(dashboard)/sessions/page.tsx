@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import NewSessionForm from "@/components/admin/NewSessionForm";
+import { SESSION_STATUS_LABEL } from "@/lib/types";
 
 export default async function AdminSessionsPage() {
   const sessions = await prisma.photoSession.findMany({
@@ -9,7 +10,7 @@ export default async function AdminSessionsPage() {
   });
 
   return (
-    <div>
+    <div className="mx-auto max-w-[1000px] px-6 py-10">
       <h1 className="text-2xl">Séances clients</h1>
       <p className="mt-1 text-sm text-fg-muted">
         Crée une séance, uploade les photos, puis invite le client à se connecter pour faire sa
@@ -34,7 +35,7 @@ export default async function AdminSessionsPage() {
                 </div>
                 <div className="flex items-center gap-3 text-xs text-fg-muted">
                   <span>{s._count.photos} photo(s)</span>
-                  <span>{s.status === "SUBMITTED" ? "Soumise" : "En attente"}</span>
+                  <span>{SESSION_STATUS_LABEL[s.status]}</span>
                 </div>
               </Link>
             </li>
