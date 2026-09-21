@@ -16,6 +16,7 @@ export default async function PortfolioPage() {
     filename: p.filename,
     name: p.name,
     alt: p.alt,
+    sizeBytes: p.sizeBytes,
     createdAt: p.createdAt.toISOString(),
     categories: p.categories.map((c) => ({ category: c.category, order: c.order })),
   }));

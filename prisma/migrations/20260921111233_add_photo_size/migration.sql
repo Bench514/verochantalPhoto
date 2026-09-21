@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Photo" ADD COLUMN     "sizeBytes" INTEGER NOT NULL DEFAULT 0;

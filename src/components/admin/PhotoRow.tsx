@@ -42,7 +42,12 @@ export default function PhotoRow({
           <Image src={`/uploads/${photo.filename}`} alt="" fill className="object-cover" />
         </div>
 
-        <span className="text-sm text-fg-muted">{photo.name}</span>
+        <span className="text-sm text-fg-muted">
+          {photo.name}
+          <span className="ml-2 text-xs text-fg-muted/70">
+            {Math.round(photo.sizeBytes / 1024)} Ko
+          </span>
+        </span>
 
         <div className="flex items-center gap-3">
           {ALL_CATEGORIES.map((category) => (

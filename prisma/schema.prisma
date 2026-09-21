@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -17,6 +17,7 @@ model Photo {
   filename  String
   name      String
   alt       String   @default("")
+  sizeBytes Int      @default(0)
   createdAt DateTime @default(now())
 
   categories PhotoCategoryLink[]
@@ -35,6 +36,66 @@ model PhotoCategoryLink {
 
   @@unique([photoId, category])
   @@index([category, order])
+}
+
+enum SessionStatus {
+  PENDING
+  SUBMITTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  createdAt    DateTime @default(now())
+
+  sessions     PhotoSession[]
+  inviteTokens InviteToken[]
+}
+
+// A client's photo shoot. Access to its photos and selection is scoped to
+// `clientId` everywhere this is queried — never trust a session id from the
+// client alone without also checking ownership.
+model PhotoSession {
+  id          String        @id @default(cuid())
+  clientId    String
+  title       String
+  status      SessionStatus @default(PENDING)
+  submittedAt DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime      @default(now())
+
+  client User           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  photos SessionPhoto[]
+
+  @@index([clientId])
+}
+
+model SessionPhoto {
+  id         String   @id @default(cuid())
+  sessionId  String
+  storageKey String
+  filename   String
+  sizeBytes  Int      @default(0)
+  selected   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  session PhotoSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+// Single-use link sent by email so a client can set their own password.
+model InviteToken {
+  token     String    @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model ContactMessage {

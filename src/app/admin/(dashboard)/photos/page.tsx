@@ -14,6 +14,7 @@ export default async function AdminPhotosPage() {
     filename: p.filename,
     name: p.name,
     alt: p.alt,
+    sizeBytes: p.sizeBytes,
     createdAt: p.createdAt.toISOString(),
     categories: p.categories.map((c) => ({ category: c.category, order: c.order })),
   }));
@@ -32,10 +33,18 @@ export default async function AdminPhotosPage() {
         className="mt-8 flex flex-wrap items-end gap-3 rounded-sm bg-bg-alt p-6"
       >
         <div>
-          <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="file">
-            Nouvelle photo
+          <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="files">
+            Nouvelle(s) photo(s)
           </label>
-          <input id="file" name="file" type="file" accept="image/*" required className="text-sm" />
+          <input
+            id="files"
+            name="files"
+            type="file"
+            accept="image/*"
+            multiple
+            required
+            className="text-sm"
+          />
         </div>
         <div>
           <span className="mb-1.5 block text-[13px] text-fg-muted">Catégorie(s)</span>

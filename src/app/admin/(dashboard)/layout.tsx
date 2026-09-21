@@ -15,6 +15,9 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
           <Link href="/admin/photos" className="hover:text-fg-muted">
             Photos
           </Link>
+          <Link href="/admin/sessions" className="hover:text-fg-muted">
+            Séances
+          </Link>
           <Link href="/admin/messages" className="hover:text-fg-muted">
             Messages
           </Link>

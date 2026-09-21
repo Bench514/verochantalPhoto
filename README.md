@@ -9,16 +9,19 @@ Le dossier `design_handoff_site_photographe/` contient la spec de design d'origi
 ## Stack
 
 - Next.js (App Router) + TypeScript + Tailwind CSS v4
-- Prisma + SQLite (fichier local ; sur Railway, un volume persistant)
+- Prisma + PostgreSQL
 - Auth admin: compte unique via variables d'environnement + cookie de session signé (JWT)
-- Photos uploadées servies depuis un dossier hors de `public/` (compatible volume persistant)
+- Photos stockées sur Cloudflare R2 (S3-compatible), servies via une route qui proxy le bucket
 
 ## Développement local
+
+Nécessite un Postgres accessible (local via Docker, ou une base de dev
+Railway/Neon/Supabase) et un bucket R2 (voir `.env.example`).
 
 ```bash
 npm install
 cp .env.example .env   # puis éditer les valeurs (voir ci-dessous)
-npx prisma migrate dev # applique les migrations + lance le seed la première fois
+npx prisma migrate dev # applique les migrations
 npm run dev
 ```
 
@@ -40,29 +43,27 @@ Railway — copier le hash tel quel là-bas, sans échappement.
 ## Déploiement sur Railway
 
 1. Créer un projet Railway, connecter ce dépôt GitHub.
-2. Ajouter un **volume** monté sur `/data` (persiste les photos + la base SQLite
-   entre les déploiements — sans ça, tout est perdu à chaque redéploiement).
-3. Variables d'environnement à définir sur Railway (voir `.env.example`) :
-   - `DATABASE_URL=file:/data/prod.db`
-   - `UPLOADS_DIR=/data/uploads`
+2. Ajouter l'**add-on PostgreSQL** de Railway — il fournit `DATABASE_URL`
+   automatiquement.
+3. Créer un bucket **Cloudflare R2** (compte Cloudflare > R2 > créer un bucket)
+   et un jeton API avec accès lecture/écriture sur ce bucket.
+4. Variables d'environnement à définir sur Railway (voir `.env.example`) :
+   - `DATABASE_URL` (fournie par l'add-on Postgres)
+   - `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
    - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET` (chaîne aléatoire longue)
    - `CALENDLY_URL`, `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_CONTACT_PHONE`
    - `RESEND_API_KEY` + `CONTACT_NOTIFICATION_EMAIL` (optionnel, notification email des messages de contact)
-4. Railway détecte Next.js automatiquement (Nixpacks). Les migrations Prisma
+5. Railway détecte Next.js automatiquement (Nixpacks). Les migrations Prisma
    (`prisma migrate deploy`) s'appliquent au **démarrage** du serveur (`npm run
-   start`), pas pendant le build — sur Railway, le volume persistant n'est monté
-   qu'au runtime, pas dans le conteneur de build éphémère. Les lancer pendant
-   `npm run build` échouerait silencieusement contre un chemin qui disparaît
-   ensuite, laissant une base sans tables au démarrage réel.
-5. Premier déploiement : la base sur le volume est vide. Se connecter à
-   `/admin/photos` et uploader les photos, ou lancer le script de seed une fois
-   (`npm run db:seed`) pour reprendre les photos du dossier `design_handoff_site_photographe/uploads/`.
+   start`), pas pendant le build.
+6. Premier déploiement : la base et le bucket sont vides. Se connecter à
+   `/admin/photos` et uploader les photos.
 
 ## Structure
 
 - `src/app/*` — pages publiques (accueil, portfolio, services, déroulement, bio, contact)
 - `src/app/admin/*` — zone admin protégée (photos, messages)
-- `src/app/uploads/[...path]/route.ts` — sert les photos uploadées depuis `UPLOADS_DIR`
+- `src/app/uploads/[...path]/route.ts` — sert les photos depuis le bucket R2
 - `prisma/schema.prisma` — modèles `Photo` et `ContactMessage`
 
 

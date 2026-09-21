@@ -11,32 +11,38 @@ function isCategory(v: unknown): v is PhotoCategory {
 }
 
 export async function uploadPhotoAction(formData: FormData) {
-  const file = formData.get("file");
+  const files = formData.getAll("files").filter((f): f is File => f instanceof File && f.size > 0);
   const categories = formData.getAll("categories").filter(isCategory);
-  if (!(file instanceof File) || file.size === 0) throw new Error("Aucun fichier fourni");
+  if (files.length === 0) throw new Error("Aucun fichier fourni");
   if (categories.length === 0) throw new Error("Choisir au moins une catégorie");
 
-  const filename = await saveUpload(file);
-  const originalName = path.basename(file.name, path.extname(file.name));
+  // Sequential, not Promise.all: each insert's order depends on reading the
+  // previous photo's order in the same category, so concurrent inserts
+  // would race and could assign duplicate order values.
+  for (const file of files) {
+    const filename = await saveUpload(file);
+    const originalName = path.basename(file.name, path.extname(file.name));
 
-  await prisma.photo.create({
-    data: {
-      filename,
-      name: originalName,
-      alt: "",
-      categories: {
-        create: await Promise.all(
-          categories.map(async (category) => {
-            const last = await prisma.photoCategoryLink.findFirst({
-              where: { category },
-              orderBy: { order: "desc" },
-            });
-            return { category, order: (last?.order ?? -1) + 1 };
-          })
-        ),
+    await prisma.photo.create({
+      data: {
+        filename,
+        name: originalName,
+        alt: "",
+        sizeBytes: file.size,
+        categories: {
+          create: await Promise.all(
+            categories.map(async (category) => {
+              const last = await prisma.photoCategoryLink.findFirst({
+                where: { category },
+                orderBy: { order: "desc" },
+              });
+              return { category, order: (last?.order ?? -1) + 1 };
+            })
+          ),
+        },
       },
-    },
-  });
+    });
+  }
 
   revalidatePath("/admin/photos");
   revalidatePath("/portfolio");
