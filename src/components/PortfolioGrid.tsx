@@ -54,7 +54,7 @@ export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
       {shown.length === 0 ? (
         <p className="text-center text-fg-muted">Aucune photo dans cette catégorie pour le moment.</p>
       ) : (
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-3 sm:grid-cols-3">
           {shown.map((photo) => (
             <button
               key={photo.id}
@@ -66,7 +66,7 @@ export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
                 src={`/uploads/${photo.filename}`}
                 alt={photo.alt}
                 fill
-                sizes="(max-width: 640px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, 30vw"
                 className="object-cover"
               />
               <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2.5 text-[13px] text-on-dark opacity-0 transition-opacity group-hover:opacity-100">
