@@ -8,39 +8,27 @@ import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
-  [
-    "/images/deroulement-preparation.jpg",
-    "/images/deroulement-seance.jpg",
-    "/images/home-portfolio-1.jpg",
-  ],
-  [
-    "/images/hero.jpg",
-    "/images/deroulement-selection.jpg",
-    "/images/home-portfolio-2.jpg",
-  ],
-  [
-    "/images/deroulement-livraison.jpg",
-    "/images/deroulement-consultation.jpg",
-    "/images/home-portfolio-3.jpg",
-  ],
+  ["/images/carousel-1.jpg", "/images/carousel-2.jpg", "/images/carousel-3.jpg"],
+  ["/images/carousel-4.jpg", "/images/carousel-5.jpg", "/images/carousel-6.jpg"],
+  ["/images/carousel-7.jpg", "/images/carousel-8.jpg", "/images/carousel-9.jpg"],
 ];
 
 const SERVICES = [
   {
-    title: "Portrait classique",
-    desc: "Une séance simple, lumineuse, pour des portraits qui te ressemblent.",
-    price: "dès 250 $",
+    title: `L'expérience "Rayonner"`,
+    desc: "Coiffure, maquillage et une journée entièrement dédiée à toi.",
+    price: "dès 1450 $",
   },
   {
-    title: "Séance boudoir",
-    desc: "Une expérience intimiste, pensée pour te sentir belle et en confiance.",
-    price: "dès 350 $",
+    title: `L'expérience "Briller"`,
+    desc: "Une expérience complète et immersive pour rayonner en toute confiance.",
+    price: "dès 925 $",
     featured: true,
   },
   {
-    title: "Forfait duo",
-    desc: "Entre amies, en couple — un moment partagé devant la caméra.",
-    price: "dès 450 $",
+    title: `L'expérience "Oser"`,
+    desc: "Une première expérience en douceur, pour oser se voir autrement.",
+    price: "dès 325 $",
   },
 ];
 
@@ -48,6 +36,24 @@ const STEPS = [
   { n: "1", text: "On discute de ta vision et de tes envies" },
   { n: "2", text: "Préparation — tenue, lieu, ambiance" },
   { n: "3", text: "Séance détendue, à ton rythme" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Je suis arrivée nerveuse, mais Véronique m'a rapidement mise en confiance. Je me suis permise d'être forte et vulnérable, fière et reconnectée à moi-même malgré la caméra.",
+    author: "M-C. H., 49 ans",
+  },
+  {
+    quote:
+      "J'avais peur d'être photographiée, mais je me suis sentie vue, comprise et mise en valeur à chaque instant.",
+    author: "G.A., 41 ans",
+  },
+  {
+    quote:
+      "Cette séance m'a permis d'honorer un grand tournant de ma vie avec douceur, fierté et beaucoup d'émotions.",
+    author: "P. F-P., 52 ans",
+  },
 ];
 
 export default function Home() {
@@ -99,9 +105,7 @@ export default function Home() {
         <div className="max-w-[560px]">
           <p className="text-[13px] uppercase tracking-[0.1em] text-fg-muted">Bonjour</p>
           <p className="mt-4 text-[clamp(17px,2vw,21px)] font-light leading-relaxed">
-            Moi c&apos;est Véronique. Je crée des portraits sincères, où l&apos;on se sent
-            vue — pas performée. Mon studio est un espace doux, sans jugement, pour celles
-            qui veulent se redécouvrir devant l&apos;objectif.
+            Moi, c’est Véronique. Je capture bien plus qu’une image : je crée une expérience où vous vous sentez belle, guidée et pleinement vous-même. À travers la lumière naturelle, les détails du quotidien et les émotions sincères, je raconte votre histoire avec authenticité.
           </p>
           <Link href="/bio" className="mt-5 inline-block border-b border-fg pb-0.5 text-sm">
             En savoir plus sur moi →
@@ -169,6 +173,22 @@ export default function Home() {
           <Link href="/deroulement" className="border-b border-fg pb-0.5 text-sm">
             Voir le déroulement complet →
           </Link>
+        </div>
+      </section>
+
+      <section className="bg-bg-alt px-[6vw] py-20">
+        <h2 className="text-center text-[clamp(22px,2.6vw,30px)]">Témoignages</h2>
+        <div className="mx-auto mt-10 grid max-w-[1000px] grid-cols-1 gap-10 sm:grid-cols-3">
+          {TESTIMONIALS.map((t) => (
+            <figure key={t.author} className="flex h-full flex-col items-center text-center">
+              <blockquote className="font-name text-[17px] font-light italic leading-relaxed text-fg">
+                « {t.quote} »
+              </blockquote>
+              <figcaption className="mt-auto pt-4 text-[13px] uppercase tracking-[0.1em] text-fg-muted">
+                {t.author}
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
 

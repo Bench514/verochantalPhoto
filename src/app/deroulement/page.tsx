@@ -8,31 +8,37 @@ const STEPS = [
   {
     n: "1",
     title: "Consultation",
-    text: "On discute par message ou en appel de ta vision, de tes envies et de ce qui te mettrait le plus à l'aise.",
+    text: "On échange par téléphone sur tes envies, tes craintes et ce qui te donne envie de vivre cette expérience. Je veux aussi savoir ce qui pourrait te mettre à l’aise et te permettre de te sentir en confiance.",
     img: "deroulement-consultation",
   },
   {
     n: "2",
     title: "Préparation",
-    text: "Choix du lieu, des tenues et de l'ambiance souhaitée, pour que tout soit clair avant le jour J.",
+    text: "On prend le temps de réfléchir ensemble au lieu, aux tenues et à l’ambiance que tu souhaites créer. L’objectif : que tout soit clair et que tu arrives le jour de la séance en confiance, sans pression.",
     img: "deroulement-preparation",
   },
   {
     n: "3",
     title: "La séance",
-    text: "On avance à ton rythme, avec de la musique et beaucoup de bienveillance — aucune pose n'est forcée.",
+    text: (
+      <>
+        On avance à ton rythme, au son de ta musique et dans la bienveillance. Je te guide
+        du début à la fin, sans jamais imposer une pose.{" "}
+        <strong>Tu demeures maître de ton niveau de dévoilement, à chaque instant.</strong>
+      </>
+    ),
     img: "deroulement-seance",
   },
   {
     n: "4",
     title: "Sélection",
-    text: "Tu reçois une galerie privée en ligne pour choisir tes photos préférées, sans pression de temps.",
+    text: "Après la séance, tu reçois une galerie privée en ligne où tu peux prendre le temps de choisir tes images préférées. Tu disposes d’une semaine pour faire ta sélection.",
     img: "deroulement-selection",
   },
   {
     n: "5",
     title: "Livraison",
-    text: "Tes photos retouchées te sont livrées en haute résolution, prêtes à être partagées ou imprimées.",
+    text: "Une fois tes choix faits, tes images soigneusement retouchées te sont livrées dans un délai maximal de deux semaines. Tu les recevras en haute résolution, prêtes à être imprimées, ainsi qu’en format web, faciles à partager.",
     img: "deroulement-livraison",
   },
 ];
@@ -77,6 +83,11 @@ export default function DeroulementPage() {
             </div>
           ))}
         </div>
+
+        <p className="mx-auto mt-16 max-w-[560px] border-t border-border pt-8 text-center text-sm text-fg-muted">
+          Une garantie de confiance s’applique à toutes les expériences. Si après 30 minutes
+          vous ne vous sentez pas en confiance, la séance est annulée ou reportée sans frais.
+        </p>
       </section>
 
       <CtaBanner title="Prête à commencer?">

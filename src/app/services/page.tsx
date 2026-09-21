@@ -6,28 +6,53 @@ import CalendlyButton from "@/components/CalendlyButton";
 
 const SERVICES = [
   {
-    title: "Portrait classique",
-    desc: "Une séance simple, lumineuse, pour des portraits qui te ressemblent.",
-    price: "dès 250 $",
-    details: ["1h", "2 tenues", "15 photos retouchées", "Galerie privée"],
+    title: `L'expérience "Rayonner"`,
+    desc: "",
+    price: "dès 1450 $",
+    details: [
+      "Séance à domicile: jusqu’à 6h",
+      "Service de coiffure et de maquillage",
+      "6 à 8 tenues",
+      "40 photos retouchées (format web et haute résolution)",
+      "Galerie privée illimitée",
+      "Album photo incluant les photos retouchées",
+      "Laisser-passer au spa ",
+    ],
   },
   {
-    title: "Séance boudoir",
-    desc: "Une expérience intimiste, pensée pour te sentir belle et en confiance.",
-    price: "dès 350 $",
+    title: `L'expérience "Briller"`,
+    desc: "",
+    price: "dès 925 $",
     details: [
-      "1h30",
-      "Accompagnement pose & style",
-      "20 photos retouchées",
-      "Galerie confidentielle",
+      "Séance à domicile: jusqu’à 4h",
+      "3 à 5 tenues",
+      "25 photos retouchées (format web et haute résolution)",
+      "Galerie privée illimitée",
+      "2 imprimés de vos photos préférées",
     ],
     featured: true,
   },
   {
-    title: "Forfait duo",
-    desc: "Entre amies, en couple — un moment partagé devant la caméra.",
-    price: "dès 450 $",
-    details: ["1h30", "2 personnes", "25 photos retouchées", "Galerie privée"],
+    title: `L'expérience "S'affirmer"`,
+    desc: "",
+    price: "dès 575 $",
+    details: [
+      "Séance à domicile entre 90 minutes et 2h30",
+      "2 tenues",
+      "15 photos retouchées (format web et haute résolution)",
+      "Galerie privée d'une durée de 6 mois",
+    ],
+  },
+  {
+    title: `L'expérience "Oser"`,
+    desc: "",
+    price: "dès 325 $",
+    details: [
+      "Séance à domicile de 60 minutes à 90 minutes",
+      "1 tenue",
+      "5 photos retouchées (format web et haute résolution)",
+      "Galerie privée d'une durée de 3 mois",
+    ],
   },
 ];
 
@@ -49,12 +74,12 @@ export default function ServicesPage() {
             <div
               key={s.title}
               className={
-                "flex min-w-[260px] max-w-[340px] flex-col rounded-sm p-9 " +
+                "relative flex min-w-[260px] max-w-[340px] flex-col rounded-sm p-9 " +
                 (s.featured ? "border border-fg" : "bg-bg-alt")
               }
             >
               {s.featured && (
-                <span className="mb-3 inline-block self-start rounded-sm border border-fg px-2 py-0.5 text-[11px] uppercase tracking-[0.06em]">
+                <span className="absolute -top-3 left-6 inline-block rounded-sm border border-fg bg-bg px-2 py-0.5 text-[11px] uppercase tracking-[0.06em]">
                   Populaire
                 </span>
               )}
@@ -82,6 +107,11 @@ export default function ServicesPage() {
           <Link href="/contact" className="border-b border-fg pb-0.5 text-fg">
             Écris-moi pour un forfait personnalisé →
           </Link>
+        </p>
+
+        <p className="mx-auto mt-12 max-w-[560px] border-t border-border pt-8 text-center text-sm text-fg-muted">
+          Une garantie de confiance s’applique à toutes les expériences. Si après 30 minutes
+          vous ne vous sentez pas en confiance, la séance est annulée ou reportée sans frais.
         </p>
       </section>
 
