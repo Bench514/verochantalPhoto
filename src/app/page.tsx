@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
+import FadeInSection from "@/components/FadeInSection";
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-1.jpg", "/images/carousel-2.jpg", "/images/carousel-3.jpg"],
@@ -64,6 +65,24 @@ export default function Home() {
         <section className="mx-auto flex w-full max-w-[1800px] flex-1 px-[5vw] py-10 sm:py-14">
           <HeroTriptych
             columns={HERO_COLUMNS}
+            introOverlay={
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-bg px-6 text-center">
+                <Logo
+                  shape="lockup"
+                  variant="3a"
+                  size={56}
+                  showServices={false}
+                />
+                <p className="mt-5 max-w-[280px] text-[15px] font-light leading-snug text-fg-muted">
+                  Portraits &amp; séances boudoir — en douceur, sans artifice
+                </p>
+                <div className="mt-7">
+                  <Button href="/portfolio" variant="outline">
+                    Voir le portfolio →
+                  </Button>
+                </div>
+              </div>
+            }
             centerOverlay={
               <>
                 <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/65" />
@@ -92,7 +111,7 @@ export default function Home() {
         </section>
       </div>
 
-      <section className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
+      <FadeInSection as="section" className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
         <div className="relative h-[200px] w-[200px] shrink-0 overflow-hidden rounded-full bg-bg-alt">
           <Image
             src="/images/vero.jpg"
@@ -111,9 +130,9 @@ export default function Home() {
             En savoir plus sur moi →
           </Link>
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="px-[6vw] py-16">
+      <FadeInSection as="section" className="px-[6vw] py-16">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-[clamp(22px,2.6vw,30px)]">Portfolio</h2>
           <Link href="/portfolio" className="border-b border-fg pb-0.5 text-sm">
@@ -133,9 +152,9 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="bg-bg-alt px-[6vw] py-20">
+      <FadeInSection as="section" className="bg-bg-alt px-[6vw] py-20">
         <h2 className="text-center text-[clamp(22px,2.6vw,30px)]">Services &amp; forfaits</h2>
         <div className="mt-10 flex flex-wrap justify-center gap-6">
           {SERVICES.map((s) => (
@@ -157,9 +176,9 @@ export default function Home() {
             Voir tous les forfaits →
           </Link>
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="px-[6vw] py-20 text-center">
+      <FadeInSection as="section" className="px-[6vw] py-20 text-center">
         <h2 className="text-[clamp(22px,2.6vw,30px)]">Déroulement d&apos;une séance</h2>
         <div className="mx-auto mt-10 flex max-w-[700px] flex-wrap justify-center gap-10">
           {STEPS.map((s) => (
@@ -174,9 +193,9 @@ export default function Home() {
             Voir le déroulement complet →
           </Link>
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="bg-bg-alt px-[6vw] py-20">
+      <FadeInSection as="section" className="bg-bg-alt px-[6vw] py-20">
         <h2 className="text-center text-[clamp(22px,2.6vw,30px)]">Témoignages</h2>
         <div className="mx-auto mt-10 grid max-w-[1000px] grid-cols-1 gap-10 sm:grid-cols-3">
           {TESTIMONIALS.map((t) => (
@@ -190,17 +209,19 @@ export default function Home() {
             </figure>
           ))}
         </div>
-      </section>
+      </FadeInSection>
 
-      <CtaBanner
-        title="Prête à vivre l'expérience?"
-        text="Réserve directement un créneau ou écris-moi pour qu'on en discute d'abord."
-      >
-        <CalendlyButton />
-        <Button href="/contact" variant="outline-on-dark">
-          Envoyer un message
-        </Button>
-      </CtaBanner>
+      <FadeInSection>
+        <CtaBanner
+          title="Prête à vivre l'expérience?"
+          text="Réserve directement un créneau ou écris-moi pour qu'on en discute d'abord."
+        >
+          <CalendlyButton />
+          <Button href="/contact" variant="outline-on-dark">
+            Envoyer un message
+          </Button>
+        </CtaBanner>
+      </FadeInSection>
     </>
   );
 }
