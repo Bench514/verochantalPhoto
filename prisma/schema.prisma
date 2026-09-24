@@ -114,11 +114,15 @@ model InviteToken {
 }
 
 model ContactMessage {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   email       String
   sessionType String
   message     String
-  read        Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  read        Boolean   @default(false)
+  // Non-null seulement quand la notification à Véro a été envoyée avec
+  // succès — sert à savoir quels messages n'ont jamais été notifiés
+  // (échec Resend) et à proposer un renvoi manuel dans l'admin.
+  notifiedAt  DateTime?
+  createdAt   DateTime  @default(now())
 }

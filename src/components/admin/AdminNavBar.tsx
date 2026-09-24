@@ -11,7 +11,13 @@ const TABS = [
   { href: "/admin/messages", label: "Messages" },
 ];
 
-export default function AdminNavBar({ email }: { email: string }) {
+export default function AdminNavBar({
+  email,
+  unreadCount = 0,
+}: {
+  email: string;
+  unreadCount?: number;
+}) {
   const pathname = usePathname();
 
   return (
@@ -27,13 +33,18 @@ export default function AdminNavBar({ email }: { email: string }) {
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`pb-1 ${
+                className={`flex items-center gap-1.5 pb-1 ${
                   active
                     ? "border-b border-fg text-fg"
                     : "border-b border-transparent text-fg-muted hover:text-fg"
                 }`}
               >
                 {tab.label}
+                {tab.href === "/admin/messages" && unreadCount > 0 && (
+                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-fg px-1 text-[10px] normal-case tracking-normal text-bg">
+                    {unreadCount}
+                  </span>
+                )}
               </Link>
             );
           })}
