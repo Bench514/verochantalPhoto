@@ -22,6 +22,10 @@ export default function ContactForm() {
 
   return (
     <form action={formAction} className="space-y-4 rounded-sm bg-bg-alt p-9">
+      <div className="absolute left-[-9999px]" aria-hidden="true">
+        <label htmlFor="website">Site web</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div>
         <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="name">
           Nom
