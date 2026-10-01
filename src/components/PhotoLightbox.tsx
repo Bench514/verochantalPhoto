@@ -54,6 +54,7 @@ export default function PhotoLightbox({
           alt={photo.alt || photo.name}
           fill
           sizes="96vw"
+          quality={85}
           className="object-contain"
           onLoad={(e) => {
             const img = e.currentTarget;
