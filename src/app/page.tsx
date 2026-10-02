@@ -7,6 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
 import FadeInSection from "@/components/FadeInSection";
+import { PACKAGES } from "@/lib/packages";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
@@ -15,24 +16,26 @@ const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-7.jpg", "/images/carousel-8.jpg", "/images/carousel-9.jpg"],
 ];
 
+// Trois forfaits mis en avant sur l'accueil, en ordre décroissant de valeur.
+// Titres, prix et mise en avant viennent de PACKAGES (source unique avec
+// /services) ; seule l'accroche courte est propre à l'accueil.
 const SERVICES = [
   {
-    title: `L'expérience "Rayonner"`,
-    desc: "Coiffure, maquillage et une journée entièrement dédiée à toi.",
-    price: "dès 1450 $",
-  },
-  {
-    title: `L'expérience "Briller"`,
+    key: "briller",
     desc: "Une expérience complète et immersive pour rayonner en toute confiance.",
-    price: "dès 925 $",
-    featured: true,
   },
   {
-    title: `L'expérience "Oser"`,
-    desc: "Une première expérience en douceur, pour oser se voir autrement.",
-    price: "dès 325 $",
+    key: "saffirmer",
+    desc: "Le temps de deux tenues pour prendre ta place et te révéler avec assurance.",
   },
-];
+  {
+    key: "oser",
+    desc: "Une première expérience en douceur, pour oser se voir autrement.",
+  },
+].map(({ key, desc }) => {
+  const pkg = PACKAGES.find((p) => p.key === key)!;
+  return { title: pkg.title, price: pkg.price, featured: pkg.featured, desc };
+});
 
 const STEPS = [
   { n: "1", text: "On discute de ta vision et de tes envies" },
