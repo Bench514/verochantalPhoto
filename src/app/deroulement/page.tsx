@@ -3,6 +3,14 @@ import SiteNav from "@/components/SiteNav";
 import Button from "@/components/Button";
 import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "Déroulement d'une séance",
+  description:
+    "Consultation, préparation, séance, sélection et livraison : comment se déroule une séance photo boudoir ou portrait avec Véronique Chantal, à ton rythme.",
+  path: "/deroulement",
+});
 
 const STEPS = [
   {

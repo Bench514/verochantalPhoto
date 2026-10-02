@@ -1,6 +1,14 @@
 import SiteNav from "@/components/SiteNav";
 import ContactForm from "@/components/ContactForm";
 import CalendlyButton from "@/components/CalendlyButton";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "Contact",
+  description:
+    "Écris à Véronique Chantal pour réserver ta séance photo boudoir ou portrait, ou pour en discuter d'abord. Réponse sous 1 à 2 jours ouvrables.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "bonjour@veroniquechantalphoto.ca";
