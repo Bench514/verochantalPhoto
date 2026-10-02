@@ -62,7 +62,7 @@ export default function Home() {
     <>
       <div className="flex min-h-screen flex-col">
         <SiteNav active="accueil" />
-        <section className="mx-auto flex w-full max-w-[1800px] flex-1 px-[5vw] py-10 sm:py-14">
+        <section className="mx-auto flex w-full max-w-[1800px] flex-1 md:px-[5vw] md:py-14">
           <HeroTriptych
             columns={HERO_COLUMNS}
             introOverlay={
