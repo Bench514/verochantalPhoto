@@ -10,7 +10,7 @@ export default function ContactPage() {
     <>
       <SiteNav active="contact" />
       <section className="mx-auto flex max-w-[1300px] flex-wrap gap-16 px-[6vw] py-16">
-        <div className="min-w-[280px] flex-1">
+        <div className="w-full md:w-auto md:min-w-[280px] md:flex-1">
           <h1 className="text-[clamp(28px,3.4vw,40px)]">Contact</h1>
           <p className="mt-3 text-fg-muted">
             Réponse généralement sous 1 à 2 jours ouvrables.
@@ -19,7 +19,7 @@ export default function ContactPage() {
           <div className="mt-8 space-y-6">
             <div>
               <p className="text-[12px] uppercase tracking-[0.1em] text-fg-muted">Courriel</p>
-              <p className="mt-1 text-[15px]">{email}</p>
+              <p className="mt-1 break-words text-[15px]">{email}</p>
             </div>
             {phone && (
               <div>
@@ -34,7 +34,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="min-w-[360px] flex-[1.4]">
+        <div className="w-full md:w-auto md:min-w-[360px] md:flex-[1.4]">
           <ContactForm />
         </div>
       </section>
