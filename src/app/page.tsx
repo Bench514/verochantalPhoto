@@ -7,6 +7,8 @@ import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
 import FadeInSection from "@/components/FadeInSection";
+import { PACKAGES } from "@/lib/packages";
+import TestimonialsSlider from "@/components/TestimonialsSlider";
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-1.jpg", "/images/carousel-2.jpg", "/images/carousel-3.jpg"],
@@ -14,24 +16,26 @@ const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-7.jpg", "/images/carousel-8.jpg", "/images/carousel-9.jpg"],
 ];
 
+// Trois forfaits mis en avant sur l'accueil, en ordre décroissant de valeur.
+// Titres, prix et mise en avant viennent de PACKAGES (source unique avec
+// /services) ; seule l'accroche courte est propre à l'accueil.
 const SERVICES = [
   {
-    title: `L'expérience "Rayonner"`,
-    desc: "Coiffure, maquillage et une journée entièrement dédiée à toi.",
-    price: "dès 1450 $",
-  },
-  {
-    title: `L'expérience "Briller"`,
+    key: "briller",
     desc: "Une expérience complète et immersive pour rayonner en toute confiance.",
-    price: "dès 925 $",
-    featured: true,
   },
   {
-    title: `L'expérience "Oser"`,
-    desc: "Une première expérience en douceur, pour oser se voir autrement.",
-    price: "dès 325 $",
+    key: "saffirmer",
+    desc: "Le temps de deux tenues pour prendre ta place et te révéler avec assurance.",
   },
-];
+  {
+    key: "oser",
+    desc: "Une première expérience en douceur, pour oser se voir autrement.",
+  },
+].map(({ key, desc }) => {
+  const pkg = PACKAGES.find((p) => p.key === key)!;
+  return { title: pkg.title, price: pkg.price, featured: pkg.featured, desc };
+});
 
 const STEPS = [
   { n: "1", text: "On discute de ta vision et de tes envies" },
@@ -62,7 +66,7 @@ export default function Home() {
     <>
       <div className="flex min-h-screen flex-col">
         <SiteNav active="accueil" />
-        <section className="mx-auto flex w-full max-w-[1800px] flex-1 px-[5vw] py-10 sm:py-14">
+        <section className="mx-auto flex w-full max-w-[1800px] flex-1 md:px-[5vw] md:py-14">
           <HeroTriptych
             columns={HERO_COLUMNS}
             introOverlay={
@@ -111,8 +115,8 @@ export default function Home() {
         </section>
       </div>
 
-      <FadeInSection as="section" className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
-        <div className="relative h-[200px] w-[200px] shrink-0 overflow-hidden rounded-full bg-bg-alt">
+      <FadeInSection as="section" className="mx-auto flex max-w-[1100px] flex-col gap-14 px-[6vw] py-20 md:flex-row md:flex-wrap md:items-center">
+        <div className="relative h-[200px] w-[200px] shrink-0 self-end overflow-hidden rounded-full bg-bg-alt md:self-auto">
           <Image
             src="/images/vero.jpg"
             alt="Véronique Chantal"
@@ -197,22 +201,12 @@ export default function Home() {
 
       <FadeInSection as="section" className="bg-bg-alt px-[6vw] py-20">
         <h2 className="text-center text-[clamp(22px,2.6vw,30px)]">Témoignages</h2>
-        <div className="mx-auto mt-10 grid max-w-[1000px] grid-cols-1 gap-10 sm:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <figure key={t.author} className="flex h-full flex-col items-center text-center">
-              <blockquote className="font-name text-[17px] font-light italic leading-relaxed text-fg">
-                « {t.quote} »
-              </blockquote>
-              <figcaption className="mt-auto pt-4 text-[13px] uppercase tracking-[0.1em] text-fg-muted">
-                {t.author}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <TestimonialsSlider testimonials={TESTIMONIALS} />
       </FadeInSection>
 
       <FadeInSection>
         <CtaBanner
+          tall
           title="Prête à vivre l'expérience?"
           text="Réserve directement un créneau ou écris-moi pour qu'on en discute d'abord."
         >

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import MobileMenu from "@/components/MobileMenu";
 import { NAV_LINKS, type NavKey } from "@/lib/nav";
 
 export default function SiteNav({
@@ -27,7 +28,7 @@ export default function SiteNav({
       >
         <Logo shape="monogram" variant={transparent ? "3b" : "3a"} size={22} />
       </Link>
-      <ul className="flex items-center gap-7 text-[13px] tracking-[0.04em]">
+      <ul className="hidden items-center gap-7 md:flex text-[13px] tracking-[0.04em]">
         {NAV_LINKS.map((link) => {
           const isActive = link.key === active;
           const base = transparent
@@ -55,6 +56,7 @@ export default function SiteNav({
           );
         })}
       </ul>
+      <MobileMenu active={active} transparent={transparent} />
     </nav>
   );
 }

@@ -54,19 +54,21 @@ export default function PortfolioGrid({ photos }: { photos: PhotoDTO[] }) {
       {shown.length === 0 ? (
         <p className="text-center text-fg-muted">Aucune photo dans cette catégorie pour le moment.</p>
       ) : (
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 sm:grid-cols-3">
+        // En mobile : 4 colonnes de vignettes carrées (environ 80 px sur un
+        // téléphone, assez pour le pouce), la photo s'ouvre en plein écran.
+        <div className="mx-auto grid max-w-[1200px] grid-cols-4 gap-0.5 md:grid-cols-3 md:gap-0">
           {shown.map((photo) => (
             <button
               key={photo.id}
               type="button"
               onClick={() => setSelected(photo)}
-              className="group relative aspect-[4/5] overflow-hidden bg-bg-alt text-left"
+              className="group relative aspect-square overflow-hidden bg-bg-alt text-left md:aspect-[4/5]"
             >
               <Image
                 src={`/uploads/${photo.filename}`}
                 alt={photo.alt}
                 fill
-                sizes="(max-width: 640px) 100vw, 30vw"
+                sizes="(max-width: 47.99rem) 25vw, 30vw"
                 className="object-cover"
               />
               <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2.5 text-[13px] text-on-dark opacity-0 transition-opacity group-hover:opacity-100">

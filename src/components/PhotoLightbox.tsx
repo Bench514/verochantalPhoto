@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "@/components/Logo";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import type { PhotoDTO } from "@/lib/types";
 
 export default function PhotoLightbox({
@@ -16,6 +17,8 @@ export default function PhotoLightbox({
   // loaded image. The frame is then sized to fill as much of the viewport as
   // possible (upscaling if needed) while keeping the watermark on the photo.
   const [ratio, setRatio] = useState<number | null>(null);
+
+  useBodyScrollLock();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
