@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata = pageMetadata({
   title: "Services et forfaits",
   description:
-    "Les forfaits boudoir et portrait de Véronique Chantal : Oser, S'affirmer, Briller et Rayonner. Séances à domicile, photos retouchées et galerie privée.",
+    "Forfaits boudoir et portrait de Véronique Chantal : Oser, S'affirmer, Briller et Rayonner. Séances à domicile à Montréal, dans les Laurentides et Lanaudière.",
   path: "/services",
 });
 

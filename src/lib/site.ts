@@ -7,12 +7,24 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://verochantalphotographie.ca"
 ).replace(/\/$/, "");
 
+export const SITE_DOMAIN = "verochantalphotographie.ca";
+
 export const SITE_NAME = "Véronique Chantal Photographie";
 
-export const SITE_TITLE = "Véronique Chantal | Photographie boudoir et portrait";
+// Courriel public (page Contact, portail client, données structurées).
+// NEXT_PUBLIC_CONTACT_EMAIL sur Railway a priorité s'il est défini.
+export const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@verochantalphotographie.ca";
+
+// Région desservie, affichée dans le footer et sur la page Contact, et
+// déclarée aux moteurs de recherche (description, données structurées).
+export const SERVICE_AREAS = ["Montréal et les environs", "Laurentides", "Lanaudière"];
+
+export const SITE_TITLE =
+  "Véronique Chantal | Photographe boudoir et portrait à Montréal";
 
 export const SITE_DESCRIPTION =
-  "Photographe boudoir et portrait. Des séances en douceur, à domicile, pour se voir autrement : lumière naturelle, émotions sincères et images sans artifice.";
+  "Photographe boudoir et portrait à Montréal, dans les Laurentides et Lanaudière. Des séances en douceur, à domicile : lumière naturelle et images sans artifice.";
 
 // Image d'aperçu (logo blanc sur fond noir), servie depuis
 // src/app/opengraph-image.png. Le layout la reçoit automatiquement, mais un

@@ -9,6 +9,7 @@ import HeroTriptych from "@/components/HeroTriptych";
 import FadeInSection from "@/components/FadeInSection";
 import { PACKAGES } from "@/lib/packages";
 import {
+  CONTACT_EMAIL,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
@@ -32,8 +33,14 @@ const JSON_LD = {
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image.png`,
   logo: `${SITE_URL}/icon.png`,
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "bonjour@veroniquechantalphoto.ca",
+  email: CONTACT_EMAIL,
   priceRange: "$$",
+  address: { "@type": "PostalAddress", addressRegion: "QC", addressCountry: "CA" },
+  areaServed: [
+    { "@type": "City", name: "Montréal" },
+    { "@type": "AdministrativeArea", name: "Laurentides" },
+    { "@type": "AdministrativeArea", name: "Lanaudière" },
+  ],
   knowsAbout: ["Photographie boudoir", "Photographie portrait"],
 };
 
