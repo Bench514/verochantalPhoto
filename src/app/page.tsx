@@ -7,6 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
 import FadeInSection from "@/components/FadeInSection";
+import TestimonialsSlider from "@/components/TestimonialsSlider";
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-1.jpg", "/images/carousel-2.jpg", "/images/carousel-3.jpg"],
@@ -111,8 +112,8 @@ export default function Home() {
         </section>
       </div>
 
-      <FadeInSection as="section" className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-14 px-[6vw] py-20">
-        <div className="relative h-[200px] w-[200px] shrink-0 overflow-hidden rounded-full bg-bg-alt">
+      <FadeInSection as="section" className="mx-auto flex max-w-[1100px] flex-col gap-14 px-[6vw] py-20 md:flex-row md:flex-wrap md:items-center">
+        <div className="relative h-[200px] w-[200px] shrink-0 self-end overflow-hidden rounded-full bg-bg-alt md:self-auto">
           <Image
             src="/images/vero.jpg"
             alt="Véronique Chantal"
@@ -197,22 +198,12 @@ export default function Home() {
 
       <FadeInSection as="section" className="bg-bg-alt px-[6vw] py-20">
         <h2 className="text-center text-[clamp(22px,2.6vw,30px)]">Témoignages</h2>
-        <div className="mx-auto mt-10 grid max-w-[1000px] grid-cols-1 gap-10 sm:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <figure key={t.author} className="flex h-full flex-col items-center text-center">
-              <blockquote className="font-name text-[17px] font-light italic leading-relaxed text-fg">
-                « {t.quote} »
-              </blockquote>
-              <figcaption className="mt-auto pt-4 text-[13px] uppercase tracking-[0.1em] text-fg-muted">
-                {t.author}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <TestimonialsSlider testimonials={TESTIMONIALS} />
       </FadeInSection>
 
       <FadeInSection>
         <CtaBanner
+          tall
           title="Prête à vivre l'expérience?"
           text="Réserve directement un créneau ou écris-moi pour qu'on en discute d'abord."
         >

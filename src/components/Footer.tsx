@@ -8,8 +8,8 @@ import { NAV_LINKS } from "@/lib/nav";
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-bg px-[6vw] pt-14 pb-9">
-      <div className="mx-auto flex max-w-[1100px] flex-wrap items-start justify-between gap-8">
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-7">
+      <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-10 text-center md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-8 md:text-left">
+        <div className="flex flex-col items-center gap-5 md:flex-row md:items-start md:gap-7">
           <div
             className="flex flex-shrink-0 flex-col items-center border border-fg"
             style={{ padding: "24px 35px 22px", gap: 19 }}
@@ -22,7 +22,7 @@ export default function Footer() {
             </span>
             <span className="block bg-fg" style={{ height: 3, width: 49 }} />
           </div>
-          <div className="flex flex-col gap-[11px]">
+          <div className="flex flex-col items-center gap-[11px] md:items-start">
             <span
               className="font-name italic font-light leading-none text-fg"
               style={{ fontSize: 38 }}
@@ -38,7 +38,7 @@ export default function Footer() {
             <span className="mt-[10px] text-[12px] text-fg-muted">veroniquechantalphoto.ca</span>
           </div>
         </div>
-        <ul className="flex flex-wrap gap-5 text-[11px] uppercase tracking-[.08em] text-fg-muted">
+        <ul className="flex flex-wrap justify-center gap-x-5 gap-y-3 text-[11px] uppercase tracking-[.08em] text-fg-muted">
           {NAV_LINKS.filter((l) => l.key !== "accueil").map((link) => (
             <li key={link.key}>
               <Link href={link.href} className="hover:text-fg">
@@ -48,7 +48,7 @@ export default function Footer() {
           ))}
         </ul>
       </div>
-      <div className="mx-auto mt-9 max-w-[1100px] border-t border-border pt-[18px] text-[11px] text-fg-muted">
+      <div className="mx-auto mt-9 max-w-[1100px] border-t border-border pt-[18px] text-center text-[11px] text-fg-muted md:text-left">
         © {new Date().getFullYear()} Véro Chantal Photographe
       </div>
     </footer>
