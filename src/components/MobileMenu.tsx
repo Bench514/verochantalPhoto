@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { NAV_LINKS, type NavKey } from "@/lib/nav";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 // Menu burger affiché sous le breakpoint md : le bouton remplace la liste de
 // liens du header, et ouvre un panneau plein écran sur fond clair.
@@ -19,6 +20,8 @@ export default function MobileMenu({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const wasOpen = useRef(false);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) {
       // Rend le focus au bouton burger seulement après une fermeture, pas au
@@ -33,13 +36,8 @@ export default function MobileMenu({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKey);
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
   // Si l'écran passe en desktop menu ouvert (rotation, redimensionnement),

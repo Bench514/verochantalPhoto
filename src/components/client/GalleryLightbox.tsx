@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import Image from "next/image";
 import type { GalleryPhoto } from "./PhotoTile";
 
@@ -23,6 +24,8 @@ export default function GalleryLightbox({
   onToggleSelect: () => void;
   onToggleFavorite: () => void;
 }) {
+  useBodyScrollLock();
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
