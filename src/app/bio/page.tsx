@@ -1,6 +1,14 @@
 import Image from "next/image";
 import SiteNav from "@/components/SiteNav";
 import Button from "@/components/Button";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "À propos de Véronique",
+  description:
+    "Véronique Chantal, photographe boudoir et portrait : une approche bienveillante pour que chaque personne se sente vue, belle et pleinement elle-même.",
+  path: "/bio",
+});
 
 const VALUES = [
   { title: "Douceur", text: "Un rythme adapté à toi, jamais imposé." },

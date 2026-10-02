@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NAV_LINKS } from "@/lib/nav";
+import { CONTACT_EMAIL, SERVICE_AREAS, SITE_DOMAIN } from "@/lib/site";
 
 // Reproduit design_handoff_footer/footer.snippet.html : le cadre du
 // monogramme est une homothétie ×2,7 de celui de l'entête (voir le README de
@@ -35,7 +36,11 @@ export default function Footer() {
             <span className="whitespace-nowrap pl-[.3em] text-[9px] font-light uppercase tracking-[.3em] text-fg-muted">
               Boudoir &middot; Portrait &middot; Couple
             </span>
-            <span className="mt-[10px] text-[12px] text-fg-muted">veroniquechantalphoto.ca</span>
+            <span className="mt-[10px] text-[12px] text-fg-muted">{SITE_DOMAIN}</span>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-[12px] text-fg-muted hover:text-fg">
+              {CONTACT_EMAIL}
+            </a>
+            <span className="text-[12px] text-fg-muted">{SERVICE_AREAS.join(" · ")}</span>
           </div>
         </div>
         <ul className="flex flex-wrap justify-center gap-x-5 gap-y-3 text-[11px] uppercase tracking-[.08em] text-fg-muted">

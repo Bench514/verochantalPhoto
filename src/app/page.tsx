@@ -8,7 +8,41 @@ import CalendlyButton from "@/components/CalendlyButton";
 import HeroTriptych from "@/components/HeroTriptych";
 import FadeInSection from "@/components/FadeInSection";
 import { PACKAGES } from "@/lib/packages";
+import {
+  CONTACT_EMAIL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  pageMetadata,
+} from "@/lib/site";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
+
+export const metadata = pageMetadata({
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
+
+// Données structurées (schema.org) : décrivent l'entreprise aux moteurs de
+// recherche. Contenu statique, échappé quand même comme le recommande Next.
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: SITE_NAME,
+  alternateName: "Véro Chantal Photographe",
+  description: SITE_DESCRIPTION,
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image.png`,
+  logo: `${SITE_URL}/icon.png`,
+  email: CONTACT_EMAIL,
+  priceRange: "$$",
+  address: { "@type": "PostalAddress", addressRegion: "QC", addressCountry: "CA" },
+  areaServed: [
+    { "@type": "City", name: "Montréal" },
+    { "@type": "AdministrativeArea", name: "Laurentides" },
+    { "@type": "AdministrativeArea", name: "Lanaudière" },
+  ],
+  knowsAbout: ["Photographie boudoir", "Photographie portrait"],
+};
 
 const HERO_COLUMNS: [string[], string[], string[]] = [
   ["/images/carousel-1.jpg", "/images/carousel-2.jpg", "/images/carousel-3.jpg"],
@@ -64,6 +98,12 @@ const TESTIMONIALS = [
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="flex min-h-screen flex-col">
         <SiteNav active="accueil" />
         <section className="mx-auto flex w-full max-w-[1800px] flex-1 md:px-[5vw] md:py-14">

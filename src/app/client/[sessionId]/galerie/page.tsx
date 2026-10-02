@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import GalleryClient from "@/components/client/GalleryClient";
 import type { GalleryPhoto } from "@/components/client/PhotoTile";
 import { isSessionLocked } from "@/lib/types";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 function daysLeft(expiresAt: Date | null): number | null {
   if (!expiresAt) return null;
@@ -36,7 +37,7 @@ export default async function GalerieClientPage({
     month: "long",
     day: "numeric",
   });
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "bonjour@veroniquechantalphoto.ca";
+  const contactEmail = CONTACT_EMAIL;
 
   const photos: GalleryPhoto[] = session.photos.map((p, i) => ({
     id: p.id,

@@ -72,5 +72,5 @@ Railway — copier le hash tel quel là-bas, sans échappement.
 2. Coordonnées réelles — NEXT_PUBLIC_CONTACT_EMAIL / NEXT_PUBLIC_CONTACT_PHONE sur Railway si tu veux autre chose que le placeholder.
 3. Calendly — si Véronique en a un, ajoute CALENDLY_URL sur Railway (sinon les boutons Calendly restent masqués, ce qui est déjà géré proprement).
 4. Couleur d'accent — toujours en attente de votre décision.
-5. Nom de domaine réel (veroniquechantalphoto.ca) — à connecter dans Settings → Networking si vous en achetez un, au lieu de l'URL *.up.railway.app.
+5. Nom de domaine : verochantalphotographie.ca (courriel officiel : info@verochantalphotographie.ca). Mettre APP_BASE_URL=https://verochantalphotographie.ca sur Railway pour que les liens d'invitation client utilisent ce domaine.
 6. Changer le mot de passe admin si celui utilisé pour tester n'est pas le mot de passe définitif de Véronique.

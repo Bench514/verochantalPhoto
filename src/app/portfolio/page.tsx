@@ -2,6 +2,14 @@ import SiteNav from "@/components/SiteNav";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import { prisma } from "@/lib/db";
 import type { PhotoDTO } from "@/lib/types";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "Portfolio",
+  description:
+    "Un aperçu de séances portrait et boudoir de Véronique Chantal, photographe : lumière naturelle, émotions sincères et images sans artifice.",
+  path: "/portfolio",
+});
 
 export const dynamic = "force-dynamic";
 

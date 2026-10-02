@@ -4,6 +4,14 @@ import Button from "@/components/Button";
 import CtaBanner from "@/components/CtaBanner";
 import CalendlyButton from "@/components/CalendlyButton";
 import { PACKAGES } from "@/lib/packages";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "Services et forfaits",
+  description:
+    "Forfaits boudoir et portrait de Véronique Chantal : Oser, S'affirmer, Briller et Rayonner. Séances à domicile à Montréal, dans les Laurentides et Lanaudière.",
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (

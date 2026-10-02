@@ -8,6 +8,7 @@ import Logo from "@/components/Logo";
 import Button from "@/components/Button";
 import CtaBanner from "@/components/CtaBanner";
 import { isSessionLocked } from "@/lib/types";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 function daysLeft(expiresAt: Date | null): number | null {
   if (!expiresAt) return null;
@@ -65,7 +66,7 @@ export default async function EspaceClientPage({
     month: "long",
     day: "numeric",
   });
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "bonjour@veroniquechantalphoto.ca";
+  const contactEmail = CONTACT_EMAIL;
   const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(
     `Ma séance du ${sessionDateLabel}`
   )}`;

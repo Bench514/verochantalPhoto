@@ -1,9 +1,17 @@
 import SiteNav from "@/components/SiteNav";
 import ContactForm from "@/components/ContactForm";
 import CalendlyButton from "@/components/CalendlyButton";
+import { CONTACT_EMAIL, SERVICE_AREAS, pageMetadata } from "@/lib/site";
+
+export const metadata = pageMetadata({
+  title: "Contact",
+  description:
+    "Écris à Véronique Chantal pour réserver ta séance photo boudoir ou portrait à Montréal, dans les Laurentides ou Lanaudière. Réponse sous 1 à 2 jours ouvrables.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
-  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "bonjour@veroniquechantalphoto.ca";
+  const email = CONTACT_EMAIL;
   const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE;
 
   return (
@@ -19,7 +27,16 @@ export default function ContactPage() {
           <div className="mt-8 space-y-6">
             <div>
               <p className="text-[12px] uppercase tracking-[0.1em] text-fg-muted">Courriel</p>
-              <p className="mt-1 break-words text-[15px]">{email}</p>
+              <a
+                href={`mailto:${email}`}
+                className="mt-1 block break-words text-[15px] hover:opacity-70"
+              >
+                {email}
+              </a>
+            </div>
+            <div>
+              <p className="text-[12px] uppercase tracking-[0.1em] text-fg-muted">Région desservie</p>
+              <p className="mt-1 text-[15px]">{SERVICE_AREAS.join(", ")}</p>
             </div>
             {phone && (
               <div>
