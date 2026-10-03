@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export async function toggleReadAction(id: string, read: boolean) {
   await prisma.contactMessage.update({ where: { id }, data: { read } });
@@ -24,7 +25,7 @@ export async function resendNotificationAction(id: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Site Véronique Chantal <onboarding@resend.dev>",
+        from: `Site Véronique Chantal <${CONTACT_EMAIL}>`,
         to,
         reply_to: message.email,
         subject: `Nouveau message de ${message.name} (${message.sessionType})`,

@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1, "Nom requis"),
@@ -78,7 +79,7 @@ async function notifyByEmail(data: z.infer<typeof ContactSchema>): Promise<boole
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Site Véronique Chantal <onboarding@resend.dev>",
+        from: `Site Véronique Chantal <${CONTACT_EMAIL}>`,
         to,
         reply_to: data.email,
         subject: `Nouveau message de ${data.name} (${data.sessionType})`,
@@ -111,7 +112,7 @@ async function sendConfirmationEmail(data: z.infer<typeof ContactSchema>) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Véronique Chantal Photographe <onboarding@resend.dev>",
+        from: `Véronique Chantal Photographe <${CONTACT_EMAIL}>`,
         to: data.email,
         subject: "Ton message a bien été reçu",
         text: `Bonjour ${data.name},\n\nMerci pour ton message concernant « ${data.sessionType} ». Je te réponds sous 1 à 2 jours.\n\nÀ bientôt,\nVéronique`,
