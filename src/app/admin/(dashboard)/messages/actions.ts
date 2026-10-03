@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { notificationEmailText } from "@/lib/contactNotification";
 
 export async function toggleReadAction(id: string, read: boolean) {
   await prisma.contactMessage.update({ where: { id }, data: { read } });
@@ -29,7 +30,7 @@ export async function resendNotificationAction(id: string) {
         to,
         reply_to: message.email,
         subject: `Nouveau message de ${message.name} (${message.sessionType})`,
-        text: message.message,
+        text: notificationEmailText(message),
       }),
     });
     if (res.ok) {

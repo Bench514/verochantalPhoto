@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { notificationEmailText } from "@/lib/contactNotification";
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1, "Nom requis"),
@@ -83,7 +84,7 @@ async function notifyByEmail(data: z.infer<typeof ContactSchema>): Promise<boole
         to,
         reply_to: data.email,
         subject: `Nouveau message de ${data.name} (${data.sessionType})`,
-        text: data.message,
+        text: notificationEmailText(data),
       }),
     });
     if (!res.ok) {
