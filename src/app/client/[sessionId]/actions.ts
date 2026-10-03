@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { getClientUserId } from "@/lib/auth";
 import { isSessionLocked } from "@/lib/types";
+import { notifyVero, pingVero } from "@/lib/email";
 
 // Every write here re-derives ownership and lock state from the DB using
 // the session cookie's userId — never trusts sessionId/photoId alone, and
@@ -68,12 +69,27 @@ export async function clearFavoritesAction(sessionId: string) {
 }
 
 export async function submitSelectionAction(sessionId: string) {
-  await requireOwnedPendingSession(sessionId);
+  const session = await requireOwnedPendingSession(sessionId);
 
   await prisma.photoSession.update({
     where: { id: sessionId },
     data: { status: "SUBMITTED", submittedAt: new Date() },
   });
+
+  const [client, selectedCount] = await Promise.all([
+    prisma.user.findUnique({ where: { id: session.clientId } }),
+    prisma.sessionPhoto.count({ where: { sessionId, selected: true } }),
+  ]);
+  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+
+  const notified = await notifyVero({
+    fromName: "Site Véronique Chantal",
+    subject: `Sélection soumise : ${session.title} (${client?.name ?? "client"})`,
+    text: `${client?.name ?? "Un client"} (${client?.email ?? "courriel inconnu"}) a soumis sa sélection finale pour la séance « ${session.title} ».\n\nPhotos sélectionnées : ${selectedCount}\n\nVoir la séance : ${baseUrl}/admin/sessions/${sessionId}`,
+  });
+  if (notified) {
+    await pingVero(`${client?.name ?? "Un client"} a soumis sa sélection pour « ${session.title} ».`);
+  }
 
   revalidateSession(sessionId);
   redirect(`/client/${sessionId}`);

@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { CONTACT_EMAIL } from "@/lib/site";
 import { notificationEmailText } from "@/lib/contactNotification";
+import { notifyVero, pingVero, sendEmail } from "@/lib/email";
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1, "Nom requis"),
@@ -55,71 +55,31 @@ export async function submitContactMessage(
   }
 
   const created = await prisma.contactMessage.create({ data: parsed.data });
-  const notified = await notifyByEmail(parsed.data);
+
+  const notified = await notifyVero({
+    fromName: "Site Véronique Chantal",
+    replyTo: parsed.data.email,
+    subject: `Nouveau message de ${parsed.data.name} (${parsed.data.sessionType})`,
+    text: notificationEmailText(parsed.data),
+  });
   if (notified) {
     await prisma.contactMessage.update({
       where: { id: created.id },
       data: { notifiedAt: new Date() },
     });
+    await pingVero(`${parsed.data.name} a écrit via le formulaire de contact du site.`);
   }
+
   await sendConfirmationEmail(parsed.data);
 
   return { status: "success" };
 }
 
-async function notifyByEmail(data: z.infer<typeof ContactSchema>): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_NOTIFICATION_EMAIL;
-  if (!apiKey || !to) return false;
-
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `Site Véronique Chantal <${CONTACT_EMAIL}>`,
-        to,
-        reply_to: data.email,
-        subject: `Nouveau message de ${data.name} (${data.sessionType})`,
-        text: notificationEmailText(data),
-      }),
-    });
-    if (!res.ok) {
-      console.error("[contact] notification email rejected:", res.status, await res.text());
-      return false;
-    }
-    return true;
-  } catch (err) {
-    // Le message est déjà enregistré en base — un échec d'envoi d'email ne
-    // doit ni le faire perdre ni bloquer la réponse au client. `notifiedAt`
-    // reste vide, ce qui permet de le renvoyer depuis l'admin.
-    console.error("[contact] notification email failed:", err);
-    return false;
-  }
-}
-
 async function sendConfirmationEmail(data: z.infer<typeof ContactSchema>) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
-
-  try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `Véronique Chantal Photographe <${CONTACT_EMAIL}>`,
-        to: data.email,
-        subject: "Ton message a bien été reçu",
-        text: `Bonjour ${data.name},\n\nMerci pour ton message concernant « ${data.sessionType} ». Je te réponds sous 1 à 2 jours.\n\nÀ bientôt,\nVéronique`,
-      }),
-    });
-  } catch (err) {
-    console.error("[contact] confirmation email failed:", err);
-  }
+  await sendEmail({
+    to: data.email,
+    fromName: "Véronique Chantal Photographe",
+    subject: "Ton message a bien été reçu",
+    text: `Bonjour ${data.name},\n\nMerci pour ton message concernant « ${data.sessionType} ». Je te réponds sous 1 à 2 jours.\n\nÀ bientôt,\nVéronique`,
+  });
 }

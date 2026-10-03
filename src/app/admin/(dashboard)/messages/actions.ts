@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { CONTACT_EMAIL } from "@/lib/site";
 import { notificationEmailText } from "@/lib/contactNotification";
+import { notifyVero, pingVero } from "@/lib/email";
 
 export async function toggleReadAction(id: string, read: boolean) {
   await prisma.contactMessage.update({ where: { id }, data: { read } });
@@ -14,35 +14,15 @@ export async function resendNotificationAction(id: string) {
   const message = await prisma.contactMessage.findUnique({ where: { id } });
   if (!message) return;
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_NOTIFICATION_EMAIL;
-  if (!apiKey || !to) return;
-
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `Site Véronique Chantal <${CONTACT_EMAIL}>`,
-        to,
-        reply_to: message.email,
-        subject: `Nouveau message de ${message.name} (${message.sessionType})`,
-        text: notificationEmailText(message),
-      }),
-    });
-    if (res.ok) {
-      await prisma.contactMessage.update({
-        where: { id },
-        data: { notifiedAt: new Date() },
-      });
-    } else {
-      console.error("[contact] resend notification rejected:", res.status, await res.text());
-    }
-  } catch (err) {
-    console.error("[contact] resend notification failed:", err);
+  const notified = await notifyVero({
+    fromName: "Site Véronique Chantal",
+    replyTo: message.email,
+    subject: `Nouveau message de ${message.name} (${message.sessionType})`,
+    text: notificationEmailText(message),
+  });
+  if (notified) {
+    await prisma.contactMessage.update({ where: { id }, data: { notifiedAt: new Date() } });
+    await pingVero(`${message.name} a écrit via le formulaire de contact du site.`);
   }
 
   revalidatePath("/admin/messages");
