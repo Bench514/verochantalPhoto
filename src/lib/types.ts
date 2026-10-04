@@ -69,5 +69,5 @@ export const EXPIRY_PRESETS = [
   { value: "30", label: "30 jours" },
   { value: "90", label: "90 jours" },
   { value: "180", label: "180 jours" },
-  { value: "", label: "Aucune expiration" },
+  { value: "", label: "Illimitée" },
 ] as const;

@@ -47,7 +47,7 @@ export const PACKAGES: Package[] = [
     price: "dès 575 $",
     includedCount: 15,
     details: [
-      "Séance à domicile entre 90 minutes et 2h30",
+      "Séance à domicile jusqu'à 3 heures",
       "2 tenues",
       "15 photos retouchées (format web et haute résolution)",
       "Galerie privée d'une durée de 6 mois",

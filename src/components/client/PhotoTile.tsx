@@ -73,7 +73,7 @@ export default function PhotoTile({
         }}
         className={`absolute right-[9px] top-[9px] flex h-7 w-7 items-center justify-center rounded-full border text-[13px] leading-none transition-all duration-150 ease-in-out disabled:cursor-default ${
           photo.selected
-            ? "border-fg bg-fg text-bg"
+            ? "border-success bg-success text-on-dark"
             : "border-on-dark/80 bg-dark/25 text-on-dark"
         }`}
       >
