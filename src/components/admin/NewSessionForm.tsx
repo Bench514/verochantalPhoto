@@ -26,7 +26,7 @@ export default function NewSessionForm() {
   }
 
   return (
-    <form action={formAction} className="mt-8 space-y-4 rounded-sm bg-bg-alt p-6">
+    <form action={formAction} className="space-y-4 rounded-sm bg-bg-alt p-6">
       <div className="flex flex-wrap gap-4">
         <div className="flex-1 min-w-[220px]">
           <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="clientName">
@@ -62,7 +62,7 @@ export default function NewSessionForm() {
       <div className="flex flex-wrap gap-4">
         <div className="flex-1 min-w-[220px]">
           <label className="mb-1.5 block text-[13px] text-fg-muted" htmlFor="title">
-            Titre de la séance (forfait)
+            Titre de la galerie (forfait)
           </label>
           <input
             ref={titleRef}
@@ -124,7 +124,7 @@ export default function NewSessionForm() {
         disabled={pending}
         className="rounded-sm bg-fg px-5 py-2.5 text-[13px] tracking-[0.03em] text-bg hover:opacity-85 disabled:opacity-50"
       >
-        {pending ? "Création..." : "Créer la séance"}
+        {pending ? "Création..." : "Créer la galerie"}
       </button>
     </form>
   );

@@ -84,7 +84,7 @@ export default async function EspaceClientPage({
         <div className="flex items-center gap-[22px] text-[13px] text-fg-muted">
           {sessionCount > 1 && (
             <Link href="/client" className="text-[11px] uppercase tracking-[0.08em] text-fg-muted hover:text-fg">
-              ← Toutes mes séances
+              ← Toutes mes galeries
             </Link>
           )}
           <span>{session.client.email}</span>
@@ -156,7 +156,7 @@ export default async function EspaceClientPage({
         <div className="flex flex-wrap items-center gap-8 rounded-sm border border-border bg-bg px-8 py-7">
           <div className="min-w-[240px] flex-1">
             <div className="mb-2 text-[11px] uppercase tracking-[0.1em] text-fg-muted">
-              Votre séance
+              Votre galerie
             </div>
             <div className="mb-1.5 text-xl">{session.title}</div>
             <div className="text-[13px] text-fg-muted">
@@ -196,7 +196,7 @@ export default async function EspaceClientPage({
 
       {expired && (
         <div className="mx-auto max-w-[1100px] px-[6vw] pt-8 text-sm text-fg-muted">
-          L&rsquo;accès à cette séance a expiré. Contactez Véronique si vous avez besoin d&rsquo;y
+          L&rsquo;accès à cette galerie a expiré. Contactez Véronique si vous avez besoin d&rsquo;y
           accéder à nouveau.
         </div>
       )}
@@ -244,7 +244,7 @@ export default async function EspaceClientPage({
           <div>
             <div className="mb-2 text-base">Combien de photos puis-je choisir ?</div>
             <p className="text-sm leading-[1.65] text-fg-muted">
-              Le nombre de retouches incluses dépend de votre forfait. Pour votre séance, c&rsquo;est{" "}
+              Le nombre de retouches incluses dépend de votre forfait. Pour votre galerie, c&rsquo;est{" "}
               {session.includedCount} photos. Vous pouvez en ajouter d&rsquo;autres après coup,
               Véronique vous indiquera le tarif.
             </p>

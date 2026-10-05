@@ -25,7 +25,7 @@ export async function createSessionAction(
 
   if (!email) return { error: "Courriel du client requis." };
   if (!clientName) return { error: "Nom du client requis." };
-  if (!title) return { error: "Titre de la séance requis." };
+  if (!title) return { error: "Titre de la galerie requis." };
 
   const expiresAt = expiryDays
     ? new Date(Date.now() + Number(expiryDays) * 24 * 60 * 60 * 1000)
@@ -57,7 +57,7 @@ export async function generateInviteLinkAction(
     where: { id: sessionId },
     include: { client: true },
   });
-  if (!session) return { error: "Séance introuvable." };
+  if (!session) return { error: "Galerie introuvable." };
 
   // Also used to reset access for an existing client (mot de passe oublié,
   // ou pour renvoyer le lien) — using it overwrites their current password
@@ -83,7 +83,7 @@ export async function sendInvitationAction(sessionId: string): Promise<SendInvit
     where: { id: sessionId },
     include: { client: true },
   });
-  if (!session) return { error: "Séance introuvable." };
+  if (!session) return { error: "Galerie introuvable." };
   if (!session.client.email) return { error: "Aucun courriel au dossier du client." };
 
   // Reuse the active link if there is one so the link shown in the admin
@@ -130,7 +130,7 @@ export async function uploadSessionPhotosAction(
 ): Promise<UploadSessionPhotosState> {
   const sessionId = String(formData.get("sessionId") || "");
   const files = formData.getAll("files").filter((f): f is File => f instanceof File && f.size > 0);
-  if (!sessionId) return { error: "Séance introuvable." };
+  if (!sessionId) return { error: "Galerie introuvable." };
   if (files.length === 0) return { error: "Choisissez au moins une photo avant d'ajouter." };
 
   // Sequential to keep this predictable and avoid hammering R2 with a burst
@@ -156,7 +156,7 @@ export async function uploadSessionPhotosAction(
 // client's confirmed selection would lose its references.
 async function requireDeletablePhotos(sessionId: string) {
   const session = await prisma.photoSession.findUnique({ where: { id: sessionId } });
-  if (!session) throw new Error("Séance introuvable.");
+  if (!session) throw new Error("Galerie introuvable.");
   if (isSessionLocked(session.status)) {
     throw new Error("La sélection du client a été reçue — les photos ne peuvent plus être supprimées.");
   }

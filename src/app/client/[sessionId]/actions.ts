@@ -16,10 +16,10 @@ async function requireOwnedPendingSession(sessionId: string) {
   if (!userId) throw new Error("Non authentifié.");
 
   const session = await prisma.photoSession.findUnique({ where: { id: sessionId } });
-  if (!session || session.clientId !== userId) throw new Error("Séance introuvable.");
+  if (!session || session.clientId !== userId) throw new Error("Galerie introuvable.");
   if (isSessionLocked(session.status)) throw new Error("Cette sélection a déjà été soumise.");
   if (session.expiresAt && session.expiresAt < new Date()) {
-    throw new Error("L'accès à cette séance a expiré.");
+    throw new Error("L'accès à cette galerie a expiré.");
   }
   return session;
 }
@@ -86,7 +86,7 @@ export async function submitSelectionAction(sessionId: string) {
   const notified = await notifyVero({
     fromName: "Site Véronique Chantal",
     subject: `Sélection soumise : ${session.title} (${client?.name ?? "client"})`,
-    text: `${client?.name ?? "Un client"} (${client?.email ?? "courriel inconnu"}) a soumis sa sélection finale pour la séance « ${session.title} ».\n\nPhotos sélectionnées : ${selectedCount}\n\nVoir la séance : ${baseUrl}/admin/sessions/${sessionId}`,
+    text: `${client?.name ?? "Un client"} (${client?.email ?? "courriel inconnu"}) a soumis sa sélection finale pour la galerie « ${session.title} ».\n\nPhotos sélectionnées : ${selectedCount}\n\nVoir la galerie : ${baseUrl}/admin/sessions/${sessionId}`,
   });
   if (notified) {
     await pingVero(`${client?.name ?? "Un client"} a soumis sa sélection pour « ${session.title} ».`);

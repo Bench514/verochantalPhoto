@@ -81,7 +81,7 @@ export default async function GalerieClientPage({
 
       {photos.length === 0 ? (
         <div className="mx-auto max-w-[1100px] px-[5vw] py-20 text-center text-sm text-fg-muted">
-          Aucune photo n&rsquo;a encore été ajoutée à cette séance.
+          Aucune photo n&rsquo;a encore été ajoutée à cette galerie.
         </div>
       ) : (
         <GalleryClient

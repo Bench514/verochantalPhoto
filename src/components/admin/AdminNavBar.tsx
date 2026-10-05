@@ -6,7 +6,7 @@ import Logo from "@/components/Logo";
 import { logoutAction } from "@/app/admin/actions";
 
 const TABS = [
-  { href: "/admin/sessions", label: "Séances" },
+  { href: "/admin/sessions", label: "Galeries" },
   { href: "/admin/photos", label: "Photos" },
   { href: "/admin/messages", label: "Messages" },
 ];

@@ -29,14 +29,14 @@ export default async function ClientHomePage() {
         <div className="flex flex-col items-center gap-5 text-center">
           <Logo shape="monogram" />
           <div>
-            <h1 className="font-signature text-3xl leading-none">Vos séances</h1>
+            <h1 className="font-signature text-3xl leading-none">Vos galeries</h1>
             {user?.name && <p className="mt-2 text-sm text-fg-muted">Bonjour {user.name}.</p>}
           </div>
         </div>
 
         {sessions.length === 0 ? (
           <p className="mt-8 text-center text-sm text-fg-muted">
-            Aucune séance ne vous a encore été assignée. Contactez Véronique si vous attendiez un
+            Aucune galerie ne vous a encore été assignée. Contactez Véronique si vous attendiez un
             accès.
           </p>
         ) : (
