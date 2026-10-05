@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { generateInviteLinkAction } from "@/app/admin/(dashboard)/sessions/actions";
+import { generateInviteLinkAction, sendInvitationAction } from "@/app/admin/(dashboard)/sessions/actions";
 import Spinner from "./Spinner";
 
 export default function AccessCard({
@@ -18,6 +18,8 @@ export default function AccessCard({
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [sending, startSending] = useTransition();
+  const [sentTo, setSentTo] = useState<string | null>(null);
 
   function generate() {
     setError(null);
@@ -30,6 +32,20 @@ export default function AccessCard({
       else {
         setLink(result.link ?? null);
         setExpiresAt(result.expiresAt ?? null);
+      }
+    });
+  }
+
+  function sendInvitation() {
+    setError(null);
+    setSentTo(null);
+    startSending(async () => {
+      const result = await sendInvitationAction(sessionId);
+      if (result.error) setError(result.error);
+      else {
+        setLink(result.link ?? null);
+        setExpiresAt(result.expiresAt ?? null);
+        setSentTo(result.to ?? null);
       }
     });
   }
@@ -70,13 +86,23 @@ export default function AccessCard({
       {!expiresLabel && <div className="mb-3" />}
 
       {error && <p className="mb-3 text-xs text-fg-muted">{error}</p>}
+      {sentTo && <p className="mb-3 text-xs text-fg-muted">Invitation envoyée à {sentTo}.</p>}
 
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
+          disabled={sending}
+          onClick={sendInvitation}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-fg px-3.5 py-2.5 text-[11px] uppercase tracking-[0.06em] text-bg disabled:opacity-60"
+        >
+          {sending && <Spinner />}
+          Envoyer l&apos;invitation
+        </button>
+        <button
+          type="button"
           disabled={pending}
           onClick={generate}
-          className="inline-flex min-w-[130px] flex-1 items-center justify-center gap-2 rounded-sm bg-fg px-3.5 py-2.5 text-[11px] uppercase tracking-[0.06em] text-bg disabled:opacity-60"
+          className="inline-flex min-w-[130px] flex-1 items-center justify-center gap-2 rounded-sm border border-fg px-3.5 py-2.5 text-[11px] uppercase tracking-[0.06em] text-fg disabled:opacity-60"
         >
           {pending && <Spinner />}
           Générer un lien
