@@ -37,7 +37,11 @@ export default function SessionPhotoCard({
   return (
     <div
       className={`overflow-hidden rounded-sm border bg-card ${
-        checked ? "border-fg" : "border-card-border"
+        photo.selected
+          ? "border-2 border-success"
+          : checked
+            ? "border-fg"
+            : "border-card-border"
       }`}
     >
       <div className="group relative aspect-[3/4] bg-bg-alt">
@@ -50,6 +54,22 @@ export default function SessionPhotoCard({
           sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 160px"
           className="object-cover"
         />
+
+        {photo.selected && (
+          <div className="pointer-events-none absolute bottom-0 left-0 flex items-center gap-1.5 rounded-tr-sm bg-success px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-white">
+            <span aria-hidden>✓</span>
+            Choisie par le client
+          </div>
+        )}
+
+        {photo.favorite && (
+          <div
+            className="pointer-events-none absolute left-2 top-8 text-base text-white drop-shadow"
+            title="Coup de cœur du client"
+          >
+            ♥
+          </div>
+        )}
 
         {isCover && (
           <div className="pointer-events-none absolute left-0 top-0 rounded-br-sm bg-dark px-2.5 py-1 text-[9px] uppercase tracking-[0.12em] text-on-dark">
