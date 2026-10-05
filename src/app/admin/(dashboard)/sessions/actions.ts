@@ -7,7 +7,7 @@ import { saveUpload, deleteUpload } from "@/lib/uploads";
 import { createInviteToken, findActiveInviteToken } from "@/lib/invite";
 import { sendEmail } from "@/lib/email";
 import { inviteEmailSubject, inviteEmailText } from "@/lib/inviteEmail";
-import { CONTACT_EMAIL } from "@/lib/site";
+import { APP_BASE_URL, CONTACT_EMAIL } from "@/lib/site";
 import { isSessionLocked, type SessionStatus } from "@/lib/types";
 
 export type CreateSessionState = { error?: string };
@@ -63,7 +63,7 @@ export async function generateInviteLinkAction(
   // ou pour renvoyer le lien) — using it overwrites their current password
   // once they open the link, it doesn't require they have none yet.
   const invite = await createInviteToken(session.clientId);
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = APP_BASE_URL;
   return {
     link: `${baseUrl}/client/set-password/${invite.token}`,
     expiresAt: invite.expiresAt.toISOString(),
@@ -91,7 +91,7 @@ export async function sendInvitationAction(sessionId: string): Promise<SendInvit
   const invite =
     (await findActiveInviteToken(session.clientId)) ??
     (await createInviteToken(session.clientId));
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = APP_BASE_URL;
   const link = `${baseUrl}/client/set-password/${invite.token}`;
 
   const ok = await sendEmail({

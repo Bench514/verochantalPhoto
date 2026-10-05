@@ -7,6 +7,10 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://verochantalphotographie.ca"
 ).replace(/\/$/, "");
 
+// Base des liens envoyés par courriel (invitation client, notifications).
+// Par défaut le vrai site; APP_BASE_URL permet de la surcharger (ex. en local).
+export const APP_BASE_URL = (process.env.APP_BASE_URL || SITE_URL).replace(/\/$/, "");
+
 export const SITE_DOMAIN = "verochantalphotographie.ca";
 
 export const SITE_NAME = "Véronique Chantal Photographie";
