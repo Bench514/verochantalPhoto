@@ -1,11 +1,7 @@
-import Link from "next/link";
-
 export default function ClientPreviewCard({
-  sessionId,
   coverPhotoId,
   coverFilename,
 }: {
-  sessionId: string;
   coverPhotoId: string | null;
   coverFilename: string | null;
 }) {
@@ -30,16 +26,9 @@ export default function ClientPreviewCard({
           </div>
         </div>
       </div>
-      <p className="mb-3 text-[13px] leading-[1.55] text-fg-muted">
+      <p className="text-[13px] leading-[1.55] text-fg-muted">
         C&rsquo;est ce que le client voit en arrivant dans son espace.
       </p>
-      <Link
-        href={`/client/${sessionId}/galerie`}
-        target="_blank"
-        className="inline-block rounded-sm border border-fg px-4 py-2 text-[11px] uppercase tracking-[0.08em] text-fg"
-      >
-        Ouvrir la galerie
-      </Link>
     </div>
   );
 }

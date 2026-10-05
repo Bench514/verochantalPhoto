@@ -29,6 +29,10 @@ export default function SessionGridClient({
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [view, setView] = useState<"all" | "chosen">("all");
+
+  const chosenCount = photos.filter((p) => p.selected).length;
+  const visiblePhotos = view === "chosen" ? photos.filter((p) => p.selected) : photos;
 
   const allSelected = photos.length > 0 && photos.every((p) => selected.has(p.id));
 
@@ -89,6 +93,32 @@ export default function SessionGridClient({
         </p>
       )}
 
+      {chosenCount > 0 && (
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-sm border border-success/30 bg-success/10 px-4 py-3 text-sm text-success">
+          <span className="flex items-center gap-2">
+            <span aria-hidden>✓</span>
+            {chosenCount} photo{chosenCount > 1 ? "s" : ""} choisie{chosenCount > 1 ? "s" : ""} par
+            le client
+          </span>
+          <div className="flex gap-2 text-[11px] uppercase tracking-[0.06em]">
+            {(["all", "chosen"] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                className={`rounded-sm border px-3 py-1.5 ${
+                  view === v
+                    ? "border-success bg-success text-white"
+                    : "border-success/40 text-success"
+                }`}
+              >
+                {v === "all" ? "Toutes" : "Sélection du client"}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {!locked && (
         <form action={uploadAction} className="mb-5">
           <input type="hidden" name="sessionId" value={sessionId} />
@@ -130,7 +160,7 @@ export default function SessionGridClient({
         </div>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3.5">
-          {photos.map((photo) => (
+          {visiblePhotos.map((photo) => (
             <SessionPhotoCard
               key={photo.id}
               photo={photo}

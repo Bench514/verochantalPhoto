@@ -107,7 +107,6 @@ export default async function AdminSessionDetailPage({
             initialExpiresAt={activeToken ? activeToken.expiresAt.toISOString() : null}
           />
           <ClientPreviewCard
-            sessionId={session.id}
             coverPhotoId={cover?.id ?? null}
             coverFilename={cover?.filename ?? null}
           />
