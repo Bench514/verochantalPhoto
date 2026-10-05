@@ -21,7 +21,7 @@ async function main() {
   });
 
   const token = await createInviteToken(user.id);
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = process.env.APP_BASE_URL || "https://verochantalphotographie.ca";
   console.log(`Lien d'invitation pour ${email} :`);
   console.log(`${baseUrl}/client/set-password/${token}`);
 }

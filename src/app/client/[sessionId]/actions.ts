@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { APP_BASE_URL } from "@/lib/site";
 import { getClientUserId } from "@/lib/auth";
 import { isSessionLocked } from "@/lib/types";
 import { notifyVero, pingVero } from "@/lib/email";
@@ -80,7 +81,7 @@ export async function submitSelectionAction(sessionId: string) {
     prisma.user.findUnique({ where: { id: session.clientId } }),
     prisma.sessionPhoto.count({ where: { sessionId, selected: true } }),
   ]);
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = APP_BASE_URL;
 
   const notified = await notifyVero({
     fromName: "Site Véronique Chantal",

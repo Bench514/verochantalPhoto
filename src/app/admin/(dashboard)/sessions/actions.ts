@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { saveUpload, deleteUpload } from "@/lib/uploads";
-import { createInviteToken } from "@/lib/invite";
+import { createInviteToken, findActiveInviteToken } from "@/lib/invite";
+import { sendEmail } from "@/lib/email";
+import { inviteEmailSubject, inviteEmailText } from "@/lib/inviteEmail";
+import { APP_BASE_URL, CONTACT_EMAIL } from "@/lib/site";
 import { isSessionLocked, type SessionStatus } from "@/lib/types";
 
 export type CreateSessionState = { error?: string };
@@ -60,9 +63,61 @@ export async function generateInviteLinkAction(
   // ou pour renvoyer le lien) — using it overwrites their current password
   // once they open the link, it doesn't require they have none yet.
   const invite = await createInviteToken(session.clientId);
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = APP_BASE_URL;
   return {
     link: `${baseUrl}/client/set-password/${invite.token}`,
+    expiresAt: invite.expiresAt.toISOString(),
+  };
+}
+
+export type SendInvitationState = {
+  sent?: boolean;
+  to?: string;
+  link?: string;
+  expiresAt?: string;
+  error?: string;
+};
+
+export async function sendInvitationAction(sessionId: string): Promise<SendInvitationState> {
+  const session = await prisma.photoSession.findUnique({
+    where: { id: sessionId },
+    include: { client: true },
+  });
+  if (!session) return { error: "Séance introuvable." };
+  if (!session.client.email) return { error: "Aucun courriel au dossier du client." };
+
+  // Reuse the active link if there is one so the link shown in the admin
+  // stays the one the client received.
+  const invite =
+    (await findActiveInviteToken(session.clientId)) ??
+    (await createInviteToken(session.clientId));
+  const baseUrl = APP_BASE_URL;
+  const link = `${baseUrl}/client/set-password/${invite.token}`;
+
+  const ok = await sendEmail({
+    to: session.client.email,
+    subject: inviteEmailSubject(),
+    text: inviteEmailText({
+      clientName: session.client.name,
+      sessionTitle: session.title,
+      link,
+      expiresAt: invite.expiresAt,
+      loginUrl: `${baseUrl}/client/login`,
+    }),
+    replyTo: CONTACT_EMAIL,
+  });
+  if (!ok) {
+    return {
+      error:
+        "L'envoi a échoué. Vérifiez la configuration du courriel (RESEND_API_KEY) ou copiez le lien manuellement.",
+    };
+  }
+
+  revalidatePath(`/admin/sessions/${sessionId}`);
+  return {
+    sent: true,
+    to: session.client.email,
+    link,
     expiresAt: invite.expiresAt.toISOString(),
   };
 }

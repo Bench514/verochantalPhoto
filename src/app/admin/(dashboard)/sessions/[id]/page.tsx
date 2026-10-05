@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/db";
+import { APP_BASE_URL } from "@/lib/site";
 import { findActiveInviteToken } from "@/lib/invite";
 import { isSessionLocked, type SessionPhotoDTO } from "@/lib/types";
 import StatusSelect from "@/components/admin/StatusSelect";
@@ -22,7 +23,7 @@ export default async function AdminSessionDetailPage({
   if (!session) notFound();
 
   const activeToken = await findActiveInviteToken(session.clientId);
-  const baseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const baseUrl = APP_BASE_URL;
 
   const photos: SessionPhotoDTO[] = session.photos.map((p) => ({
     id: p.id,
