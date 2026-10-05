@@ -66,7 +66,7 @@ export default function SessionGridClient({
   return (
     <div>
       <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-        <h2 className="font-signature text-[32px] leading-none">Photos de la séance</h2>
+        <h2 className="font-signature text-[32px] leading-none">Photos de la galerie</h2>
         {!locked && (
           <div className="flex items-center gap-4 text-xs text-fg-muted">
             <button
@@ -88,7 +88,7 @@ export default function SessionGridClient({
 
       {locked && (
         <p className="mb-5 rounded-sm border border-border bg-bg-alt p-4 text-sm text-fg-muted">
-          La sélection du client a été reçue — les photos de cette séance ne peuvent plus être
+          La sélection du client a été reçue — les photos de cette galerie ne peuvent plus être
           ajoutées ni supprimées.
         </p>
       )}

@@ -19,7 +19,7 @@ export default function DangerZoneCard({
     <div className="rounded-sm border border-border p-[22px]">
       <div className="mb-1.5 text-[13px]">Zone sensible</div>
       <p className="mb-4 text-xs leading-[1.55] text-fg-muted">
-        Supprimer la séance retire définitivement ses photos, la sélection du client et l&rsquo;accès
+        Supprimer la galerie retire définitivement ses photos, la sélection du client et l&rsquo;accès
         associé. Cette action est irréversible.
       </p>
 
@@ -29,7 +29,7 @@ export default function DangerZoneCard({
           onClick={() => setOpen(true)}
           className="w-full rounded-sm border border-fg px-4 py-2.5 text-[11px] uppercase tracking-[0.08em] text-fg"
         >
-          Supprimer la séance
+          Supprimer la galerie
         </button>
       ) : (
         <div className="space-y-3">

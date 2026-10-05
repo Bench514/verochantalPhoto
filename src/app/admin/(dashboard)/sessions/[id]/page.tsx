@@ -52,7 +52,7 @@ export default async function AdminSessionDetailPage({
             href="/admin/sessions"
             className="text-[11px] uppercase tracking-[0.08em] text-fg-muted hover:text-fg"
           >
-            ← Toutes les séances
+            ← Toutes les galeries
           </Link>
           <h1 className="mt-2 font-name text-[clamp(34px,4.4vw,52px)] italic leading-none">
             {session.title}

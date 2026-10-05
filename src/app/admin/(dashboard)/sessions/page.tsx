@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import NewSessionForm from "@/components/admin/NewSessionForm";
+import NewSessionModal from "@/components/admin/NewSessionModal";
 import { SESSION_STATUS_LABEL } from "@/lib/types";
 
 export default async function AdminSessionsPage() {
@@ -10,17 +10,22 @@ export default async function AdminSessionsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-[1200px] px-6 py-10">
-      <h1 className="text-2xl">Séances clients</h1>
-      <p className="mt-1 text-sm text-fg-muted">
-        Crée une séance, uploade les photos, puis invite le client à se connecter pour faire sa
-        sélection.
-      </p>
+    <div className="mx-auto max-w-[1000px] px-6 py-10">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl">Galeries clients</h1>
+          <p className="mt-1 text-sm text-fg-muted">
+            Crée une galerie, uploade les photos, puis invite le client à se connecter pour faire sa
+            sélection.
+          </p>
+        </div>
+        <NewSessionModal />
+      </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(320px,400px)] md:items-start">
-        <div className="order-2 md:order-1">
+      <div className="mt-8">
+        <div>
           {sessions.length === 0 ? (
-            <p className="text-sm text-fg-muted">Aucune séance pour l&rsquo;instant.</p>
+            <p className="text-sm text-fg-muted">Aucune sÃ©ance pour l&rsquo;instant.</p>
           ) : (
             <ul className="space-y-3">
               {sessions.map((s) => (
@@ -42,10 +47,6 @@ export default async function AdminSessionsPage() {
               ))}
             </ul>
           )}
-        </div>
-
-        <div className="order-1 md:order-2 md:sticky md:top-24">
-          <NewSessionForm />
         </div>
       </div>
     </div>
